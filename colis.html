@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Colis</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/colis.css"/>
+</head>
+<body>
+  <div class="mob-overlay" id="mob-overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item active" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span><span class="nav-badge">42</span><span class="nav-pip"></span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span><span class="nav-badge">8</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Administration</p>
+      <a class="nav-item" href="utilisateurs.html" id="nav-utilisateurs"><span class="nav-ico"><i class="fa-solid fa-users-gear"></i></span><span class="nav-txt">Utilisateurs</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot"><div class="foot-user"><div class="foot-avatar">AD</div><div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div></div></div>
+  </aside>
+
+  <div class="layout">
+    <div class="topbar">
+      <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <p class="topbar-page">Colis</p>
+        <nav class="topbar-bc"><span class="bc-seg">TransitFlow</span><span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span><span class="bc-seg bc-cur">Gestion des colis</span></nav>
+      </div>
+      <div class="topbar-search">
+        <i class="fa-solid fa-magnifying-glass s-ico"></i>
+        <input type="search" placeholder="Rechercher… (appuyez /)"/>
+      </div>
+      <div class="tb-icons">
+        <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+        <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+    </div>
+    <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+
+    <aside class="notif-panel" id="notifPanel">
+      <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">4</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+      <div class="notif-list">
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-box"></i></div><div class="ni-body"><p class="ni-title">Colis TF-0198 livré</p><p class="ni-sub">il y a 12 min</p></div></div>
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-truck"></i></div><div class="ni-body"><p class="ni-title">Véhicule LT-4821 en route</p><p class="ni-sub">il y a 1h</p></div></div>
+        <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-file-circle-exclamation"></i></div><div class="ni-body"><p class="ni-title">Document douanier manquant</p><p class="ni-sub">il y a 2h</p></div></div>
+      </div>
+      <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+    </aside>
+
+    <nav class="mob-bottom-nav">
+      <a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a>
+      <a class="mbn-item active" href="colis.html"><i class="fa-solid fa-boxes-stacked"></i><span class="mbn-lbl">Colis</span></a>
+      <a class="mbn-item" href="clients.html"><i class="fa-solid fa-users"></i><span class="mbn-lbl">Clients</span></a>
+      <a class="mbn-item" href="documents.html"><i class="fa-solid fa-file-contract"></i><span class="mbn-lbl">Docs</span></a>
+      <a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a>
+    </nav>
+
+    <main class="content" id="content">
+
+      <!-- STATUS SUMMARY -->
+      <div class="status-summary">
+        <div class="ss-card active" data-filter="all" style="--ss-color:#0a0a0a">
+          <div class="ss-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+          <div class="ss-info"><p class="ss-num" id="ss-all">—</p><p class="ss-lbl">Total colis</p></div>
+        </div>
+        <div class="ss-card" data-filter="pending" style="--ss-color:#a06800">
+          <div class="ss-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="ss-info"><p class="ss-num" id="ss-pending">—</p><p class="ss-lbl">En attente</p></div>
+        </div>
+        <div class="ss-card" data-filter="transit" style="--ss-color:#d4920a">
+          <div class="ss-icon"><i class="fa-solid fa-truck"></i></div>
+          <div class="ss-info"><p class="ss-num" id="ss-transit">—</p><p class="ss-lbl">En route</p></div>
+        </div>
+        <div class="ss-card" data-filter="port" style="--ss-color:#2c5ce0">
+          <div class="ss-icon"><i class="fa-solid fa-anchor"></i></div>
+          <div class="ss-info"><p class="ss-num" id="ss-port">—</p><p class="ss-lbl">Au port</p></div>
+        </div>
+        <div class="ss-card" data-filter="delivered" style="--ss-color:#1a8a4a">
+          <div class="ss-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="ss-info"><p class="ss-num" id="ss-delivered">—</p><p class="ss-lbl">Livrés</p></div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Référence, client, destination…"/>
+          </div>
+          <select class="filter-select" onchange="state.filter=this.value;state.page=1;renderTable();document.querySelectorAll('.ss-card').forEach(c=>c.classList.toggle('active',c.dataset.filter===this.value))">
+            <option value="all">Tous les statuts</option>
+            <option value="pending">En attente</option>
+            <option value="transit">En route</option>
+            <option value="port">Au port</option>
+            <option value="delivered">Livré</option>
+          </select>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn" onclick="exportCSV()"><i class="fa-solid fa-file-export"></i>Exporter CSV</button>
+          <button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouveau colis</button>
+        </div>
+      </div>
+
+      <!-- BULK BAR -->
+      <div class="bulk-bar" id="bulk-bar">
+        <span class="bulk-count" id="bulk-count">0 sélectionné</span>
+        <button class="bulk-btn" onclick="bulkChangeStatus('transit')"><i class="fa-solid fa-truck"></i>Marquer En route</button>
+        <button class="bulk-btn" onclick="bulkChangeStatus('delivered')"><i class="fa-solid fa-circle-check"></i>Marquer Livré</button>
+        <button class="bulk-btn danger" onclick="bulkDelete()"><i class="fa-solid fa-trash"></i>Supprimer</button>
+        <button class="bulk-btn" onclick="clearSelection()"><i class="fa-solid fa-xmark"></i>Annuler</button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-card">
+        <div class="table-card-head">
+          <div class="tch-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+          <div>
+            <p class="tch-title">Liste des colis</p>
+            <p class="tch-sub" id="tch-sub">Chargement…</p>
+          </div>
+          <div class="tch-action">
+            <button class="btn sm" onclick="sortBy('date')"><i class="fa-solid fa-arrow-up-wide-short"></i>Trier</button>
+          </div>
+        </div>
+
+        <div class="table-scroll-wrap">
+          <table class="colis-table">
+            <thead>
+              <tr>
+                <th class="col-check"><div class="cb-wrap"><input type="checkbox" id="cb-all" onchange="toggleSelectAll(this)"/></div></th>
+                <th class="col-ref sortable" data-sort="ref"    onclick="sortBy('ref')"   >Référence<i class="sort-ico fa-solid fa-sort"></i></th>
+                <th class="col-client sortable" data-sort="client" onclick="sortBy('client')">Client<i class="sort-ico fa-solid fa-sort"></i></th>
+                <th class="col-route">Origine → Destination</th>
+                <th class="col-poids sortable" data-sort="poids"  onclick="sortBy('poids')" >Poids<i class="sort-ico fa-solid fa-sort"></i></th>
+                <th class="col-date sortable"  data-sort="date"   onclick="sortBy('date')"  >Date<i class="sort-ico fa-solid fa-sort"></i></th>
+                <th class="col-status">Statut</th>
+                <th class="col-action">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="colis-tbody">
+              <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--g400)"><i class="fa-solid fa-spinner fa-spin"></i> Chargement…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination">
+          <span class="pag-info" id="pag-info">—</span>
+          <select class="pag-size" id="pag-size">
+            <option value="5">5 / page</option>
+            <option value="8" selected>8 / page</option>
+            <option value="15">15 / page</option>
+            <option value="30">30 / page</option>
+          </select>
+          <div class="pag-btns" id="pag-btns"></div>
+        </div>
+      </div>
+
+      <div style="height:20px"></div>
+    </main>
+  </div>
+
+  <!-- ══ MODAL AJOUT/ÉDITION ══ -->
+  <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div><p class="modal-title" id="modal-title">Nouveau colis</p><p class="modal-sub" id="modal-sub">Remplissez les informations</p></div>
+        <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form class="modal-body" id="colis-form">
+        <div class="form-section">
+          <p class="form-section-title">Identification</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Référence</label>
+              <input class="form-input readonly" id="f-ref" type="text" readonly/>
+              <span class="form-hint">Générée automatiquement</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Client <span class="req">*</span></label>
+              <input class="form-input" id="f-client" type="text" placeholder="Nom du client ou entreprise" required/>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <p class="form-section-title">Itinéraire</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ville d'origine <span class="req">*</span></label>
+              <input class="form-input" id="f-origine" type="text" placeholder="Ex : Douala" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Destination <span class="req">*</span></label>
+              <input class="form-input" id="f-dest" type="text" placeholder="Ex : Paris" required/>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <p class="form-section-title">Détails</p>
+          <div class="form-row three">
+            <div class="form-group">
+              <label class="form-label">Poids (kg)</label>
+              <input class="form-input" id="f-poids" type="number" min="0" step="0.1" placeholder="0"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Statut</label>
+              <select class="form-select" id="f-status">
+                <option value="pending">En attente</option>
+                <option value="transit">En route</option>
+                <option value="port">Au port</option>
+                <option value="delivered">Livré</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input class="form-input" id="f-date" type="date"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description du contenu</label>
+            <textarea class="form-input" id="f-desc" placeholder="Description des marchandises…"></textarea>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+          <button type="submit" class="btn primary"><i class="fa-solid fa-check"></i>Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ MODAL CONFIRMATION SUPPRESSION ══ -->
+  <div class="modal-overlay" id="confirm-modal" onclick="if(event.target===this)closeConfirm()">
+    <div class="confirm-box">
+      <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <p class="confirm-title">Confirmer la suppression</p>
+      <p class="confirm-msg" id="confirm-msg">Voulez-vous supprimer ce colis ?</p>
+      <div class="confirm-actions">
+        <button class="btn" onclick="closeConfirm()">Annuler</button>
+        <button class="btn danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i>Supprimer définitivement</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PANNEAU DÉTAIL ══ -->
+  <aside class="detail-panel" id="detail-panel">
+    <div class="dp-head">
+      <p class="dp-title">Détail du colis</p>
+      <button class="dp-close" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="dp-body">
+      <div class="dp-hero">
+        <p class="dp-ref" id="dp-ref">—</p>
+        <p class="dp-client" id="dp-client">—</p>
+        <p class="dp-route" id="dp-route">—</p>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span id="dp-badge"></span>
+      </div>
+      <div class="dp-section">
+        <p class="dp-section-title">Informations</p>
+        <div id="dp-fields"></div>
+      </div>
+      <div class="dp-section">
+        <p class="dp-section-title">Suivi du colis</p>
+        <div class="dp-timeline" id="dp-timeline"></div>
+      </div>
+    </div>
+    <div class="dp-foot">
+      <button class="btn" style="flex:1" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i>Fermer</button>
+      <button class="btn primary" style="flex:1" id="dp-edit-btn"><i class="fa-solid fa-pen"></i>Modifier</button>
+    </div>
+  </aside>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/base.js"></script>
+  <script src="assets/js/colis.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>

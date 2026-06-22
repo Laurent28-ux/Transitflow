@@ -1,0 +1,289 @@
+/* ── TransitFlow · chauffeurs.css ── */
+.ch-toolbar { 
+  display:flex; 
+  align-items:center; 
+  gap:10px; 
+  flex-wrap:wrap; 
+}
+.search-box { 
+  position:relative;
+   width:280px;
+   }
+.search-box i { 
+  position:absolute;
+   left:11px;
+    top:50%;
+     transform:translateY(-50%);
+      font-size:13px;
+       color:#9e9e9a;
+        pointer-events:none;
+       }
+.search-box input { 
+  width:100%; 
+  height:36px; 
+  border:1px solid #e4e4e1; 
+  background:#fff;
+   border-radius:9px;
+    padding:0 12px 0 34px;
+     font-family:Arial,Helvetica,sans-serif; 
+     font-size:13px; outline:none;
+      transition:all .2s; 
+    }
+.search-box input:focus { 
+  border-color:#0a0a0a; 
+  box-shadow:0 0 0 3px rgba(10,10,10,.07);
+ }
+.filter-select { 
+  height:36px; padding:0 12px; 
+  border-radius:9px;
+   border:1px solid #e4e4e1; 
+   background:#fff; 
+   font-family:Arial,Helvetica,sans-serif;
+    font-size:13px; 
+    color:#4a4a47;
+     outline:none; 
+     cursor:pointer; 
+    }
+
+.drv-grid { 
+  display:grid;
+   grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:16px; 
+  }
+.drv-card {
+  background:#fff; border:1px solid #e4e4e1; border-radius:14px;
+  padding:24px 20px; display:flex; flex-direction:column; align-items:center;
+  text-align:center; transition:all .2s; position:relative; overflow:hidden;
+}
+.drv-card:hover { 
+  border-color:#c8c8c4;
+   box-shadow:0 4px 16px rgba(0,0,0,.08); 
+   transform:translateY(-2px); 
+  }
+.drv-card::before { 
+  content:''; 
+  position:absolute; 
+  top:0; 
+  left:0;
+  right:0;
+  height:3px;
+  background:#1E3A5F;
+  transform:scaleX(0); 
+  transform-origin:left; 
+  transition:transform .3s;
+}
+.drv-card:hover::before { 
+  transform:scaleX(1);
+ }
+
+.drv-av {
+   width:60px;
+    height:60px;
+     border-radius:50%;
+      background:#1E3A5F;
+       color:#fff;
+        display:flex;
+         align-items:center;
+          justify-content:center;
+           font-size:20px; 
+           font-weight:700;
+            margin-bottom:14px;
+             flex-shrink:0; 
+            }
+.drv-name {
+   font-family:Arial,Helvetica,sans-serif; 
+   font-size:15px; 
+   font-weight:700;
+    color:#0a0a0a;
+   }
+.drv-permis { 
+  font-size:11.5px; 
+  color:#9e9e9a;
+   margin-top:3px; 
+   margin-bottom:16px;
+    font-family:Arial,Helvetica,sans-serif;
+   }
+
+.drv-info { 
+  display:flex; 
+  flex-direction:column;
+   gap:7px;
+    width:100%;
+     margin-bottom:16px;
+     }
+.di {
+   display:flex; 
+   align-items:center; 
+   gap:8px;
+    font-size:12.5px;
+     color:#6e6e6a;
+     }
+.di i { 
+  font-size:12px; 
+  color:#c8c8c4;
+   width:14px;
+    text-align:center;
+   }
+
+.drv-footer {
+   display:flex;
+    align-items:center; 
+    justify-content:space-between; 
+    width:100%; 
+    margin-top:4px;
+   }
+.drv-actions {
+   display:flex; 
+   gap:6px; 
+  }
+
+/* Status coloring for avatar */
+.drv-av.mission    { background: #C2410C; }
+.drv-av.disponible { background: #15803D; }
+.drv-av.conge      { background: #6B7280; }
+
+/* Accent hover sur carte — orange */
+.drv-card:hover::before { transform: scaleX(1); background: #F97316; }
+
+/* Modal */
+.modal-overlay { 
+  position:fixed; 
+  inset:0;
+   background:rgba(0,0,0,.45); 
+   backdrop-filter:blur(3px);
+    z-index:1000;
+     display:none;
+      align-items:center; 
+      justify-content:center;
+     }
+.modal-overlay.show { 
+  display:flex;
+ }
+.modal-box {
+   background:#fff;
+    border-radius:14px;
+     width:520px; 
+     max-width:95vw;
+      max-height:92vh;
+       overflow-y:auto;
+        box-shadow:0 8px 32px rgba(0,0,0,.12);
+         animation:modalIn .22s cubic-bezier(.4,0,.2,1); 
+        }
+@keyframes modalIn {
+   from{opacity:0;transform:scale(.96) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} 
+  }
+.modal-head { 
+  display:flex; 
+  align-items:flex-start;
+   justify-content:space-between; 
+   padding:22px 26px; 
+   border-bottom:1px solid #e4e4e1; 
+  }
+.modal-title { 
+  font-family:Arial,Helvetica,sans-serif;
+   font-size:17px;
+    font-weight:700; 
+    color:#0a0a0a;
+   }
+.modal-sub { 
+  font-size:12.5px;
+   color:#9e9e9a;
+    margin-top:4px;
+   }
+.modal-close { 
+  width:32px;
+   height:32px;
+    border-radius:8px;
+     border:1px solid #e4e4e1;
+      background:#fff; 
+      cursor:pointer;
+       display:flex;
+        align-items:center; 
+        justify-content:center;
+         font-size:15px;
+          color:#6e6e6a;
+           transition:all .15s;
+           }
+.modal-close:hover { 
+  background:#f2f2f0;
+ }
+.modal-body {
+   padding:22px 26px; 
+   display:flex; 
+   flex-direction:column; 
+   gap:14px;
+   }
+.form-row {
+   display:grid;
+    grid-template-columns:1fr 1fr; 
+    gap:14px; 
+  }
+.form-group {
+   display:flex; 
+   flex-direction:column;
+    gap:6px;
+   }
+.form-label { 
+  font-size:12px;
+   font-weight:600; 
+   color:#0a0a0a;
+   }
+.form-input,.form-select { 
+  height:38px;
+   border:1px solid #e4e4e1;
+    border-radius:8px; 
+    padding:0 12px;
+     font-family:Arial,Helvetica,sans-serif;
+      font-size:13px; 
+      color:#0a0a0a;
+       outline:none; 
+       background:#fff; 
+       transition:all .2s;
+        appearance:none; 
+      }
+.form-input:focus,.form-select:focus {
+   border-color:#0a0a0a;
+    box-shadow:0 0 0 3px rgba(10,10,10,.07); 
+  }
+.modal-foot {
+   padding:16px 26px; 
+   border-top:1px solid #e4e4e1;
+    display:flex; 
+    justify-content:flex-end;
+     gap:8px; 
+    }
+.confirm-box { 
+  background:#fff; 
+  border-radius:14px; 
+  width:400px;
+   max-width:95vw;
+    padding:30px;
+     box-shadow:0 8px 32px rgba(0,0,0,.12);
+      text-align:center;
+       animation:modalIn .22s;
+       }
+.confirm-icon {
+   font-size:38px;
+    color:#F97316; 
+    margin-bottom:14px; 
+  }
+.confirm-title {
+   font-family:Arial,Helvetica,sans-serif;
+    font-size:17px;
+     font-weight:700; 
+     margin-bottom:8px;
+     }
+.confirm-msg {
+   font-size:13px;
+    color:#6e6e6a;
+     line-height:1.6; 
+     margin-bottom:22px;
+    }
+.confirm-actions {
+   display:flex;
+    gap:10px; 
+    justify-content:center; 
+  }
+@media(max-width:600px) { 
+  .form-row{grid-template-columns:1fr}
+ }

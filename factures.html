@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Facturation</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/factures.css"/>
+</head>
+<body>
+
+  <div class="mob-overlay" id="mob-overlay"></div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item active" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span><span class="nav-pip"></span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Administration</p>
+      <a class="nav-item" href="utilisateurs.html" id="nav-utilisateurs"><span class="nav-ico"><i class="fa-solid fa-users-gear"></i></span><span class="nav-txt">Utilisateurs</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot">
+      <div class="foot-user">
+        <div class="foot-avatar">AD</div>
+        <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="layout">
+    <!-- ── TOPBAR ── -->
+    <div class="topbar">
+      <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <p class="topbar-page">Facturation</p>
+        <nav class="topbar-bc">
+          <span class="bc-seg">TransitFlow</span>
+          <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+          <span class="bc-seg bc-cur">Gestion des factures</span>
+        </nav>
+      </div>
+      <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+      <div class="tb-icons">
+        <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+        <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+        <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+    </div>
+
+    <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+
+    <!-- ── NOTIFICATIONS ── -->
+    <aside class="notif-panel" id="notifPanel">
+      <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">2</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+      <div class="notif-list">
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div><div class="ni-body"><p class="ni-title">Facture FAC-003 en retard</p><p class="ni-sub">il y a 1h</p></div></div>
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-circle-check"></i></div><div class="ni-body"><p class="ni-title">Facture FAC-001 payée</p><p class="ni-sub">il y a 3h</p></div></div>
+      </div>
+      <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+    </aside>
+
+    <!-- ── NAV MOBILE ── -->
+    <nav class="mob-bottom-nav">
+      <a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a>
+      <a class="mbn-item" href="dossiers.html"><i class="fa-solid fa-folder-open"></i><span class="mbn-lbl">Dossiers</span></a>
+      <a class="mbn-item active" href="factures.html"><i class="fa-solid fa-file-invoice-dollar"></i><span class="mbn-lbl">Factures</span></a>
+      <a class="mbn-item" href="clients.html"><i class="fa-solid fa-users"></i><span class="mbn-lbl">Clients</span></a>
+      <a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a>
+    </nav>
+
+    <!-- ══════════════ CONTENU ══════════════ -->
+    <main class="content" id="content">
+
+      <!-- STATS -->
+      <div class="fac-stats-row">
+        <div class="fac-stat-card">
+          <div class="fac-stat-ico"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+          <div class="fac-stat-body">
+            <p class="fac-stat-lbl">Total factures</p>
+            <p class="fac-stat-num" id="fs-total">0</p>
+            <p class="fac-stat-foot">Toutes périodes</p>
+          </div>
+        </div>
+        <div class="fac-stat-card">
+          <div class="fac-stat-ico" style="color:var(--fac-green)"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="fac-stat-body">
+            <p class="fac-stat-lbl">Montant encaissé</p>
+            <p class="fac-stat-num" id="fs-encaisse">0</p>
+            <p class="fac-stat-amount" id="fs-encaisse-amt">0 FCFA</p>
+          </div>
+        </div>
+        <div class="fac-stat-card">
+          <div class="fac-stat-ico" style="color:var(--fac-orange)"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div class="fac-stat-body">
+            <p class="fac-stat-lbl">En attente</p>
+            <p class="fac-stat-num" id="fs-attente">0</p>
+            <p class="fac-stat-amount" id="fs-attente-amt">0 FCFA</p>
+          </div>
+        </div>
+        <div class="fac-stat-card">
+          <div class="fac-stat-ico" style="color:var(--fac-red)"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="fac-stat-body">
+            <p class="fac-stat-lbl">En retard</p>
+            <p class="fac-stat-num" id="fs-retard">0</p>
+            <p class="fac-stat-amount" id="fs-retard-amt">0 FCFA</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="fac-toolbar">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="fac-search" type="text" placeholder="N° facture, client…"/>
+        </div>
+        <select class="fac-select" id="fac-filter-statut">
+          <option value="all">Tous les statuts</option>
+          <option value="brouillon">Brouillon</option>
+          <option value="envoyee">Envoyée</option>
+          <option value="payee">Payée</option>
+          <option value="en_retard">En retard</option>
+          <option value="annulee">Annulée</option>
+        </select>
+        <select class="fac-select" id="fac-filter-client">
+          <option value="all">Tous les clients</option>
+        </select>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="btn" onclick="exportFactures()"><i class="fa-solid fa-file-arrow-down"></i>Exporter</button>
+          <button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouvelle facture</button>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="fac-table-card">
+        <div class="fac-table-head">
+          <div class="fth-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+          <div>
+            <p class="fth-title">Liste des factures</p>
+            <p class="fth-sub" id="fth-sub">Chargement…</p>
+          </div>
+          <div class="fth-action">
+            <button class="btn sm primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouvelle</button>
+          </div>
+        </div>
+
+        <div class="fac-table-scroll">
+          <table class="fac-table">
+            <thead>
+              <tr>
+                <th>N° Facture</th>
+                <th>Client</th>
+                <th>Dossier lié</th>
+                <th>Date émission</th>
+                <th>Échéance</th>
+                <th>Montant TTC</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="fac-tbody">
+              <tr><td colspan="8" style="text-align:center;padding:40px;color:#9e9e9a">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size:24px;display:block;margin-bottom:8px"></i>Chargement…
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="fac-pagination">
+          <span id="fac-pag-info">—</span>
+          <div class="fac-pag-btns" id="fac-pag-btns"></div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CRÉATION / ÉDITION ════ -->
+      <div class="modal-overlay" id="modal-form" onclick="if(event.target===this)closeModal()">
+        <div class="fac-modal-box">
+          <div class="fac-modal-head">
+            <div class="fac-modal-ico"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+            <div>
+              <p class="fac-modal-title" id="modal-title">Nouvelle facture</p>
+              <p class="fac-modal-sub"   id="modal-sub">Renseignez les informations de la facture</p>
+            </div>
+            <button class="fac-modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <div class="fac-modal-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Client <span class="req">*</span></label>
+                <select class="form-select" id="f-client"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Dossier lié (optionnel)</label>
+                <select class="form-select" id="f-dossier">
+                  <option value="">— Aucun dossier —</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Date d'émission <span class="req">*</span></label>
+                <input class="form-input" id="f-date-emission" type="date"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date d'échéance <span class="req">*</span></label>
+                <input class="form-input" id="f-date-echeance" type="date"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">TVA (%)</label>
+                <input class="form-input" id="f-tva" type="number" min="0" max="100" value="19.25" step="0.01" oninput="recalcTotaux()"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Statut</label>
+                <select class="form-select" id="f-statut">
+                  <option value="brouillon">Brouillon</option>
+                  <option value="envoyee">Envoyée</option>
+                  <option value="payee">Payée</option>
+                  <option value="en_retard">En retard</option>
+                  <option value="annulee">Annulée</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Lignes de facture -->
+            <div class="fac-lignes-section">
+              <div class="fac-lignes-head">
+                <span class="fac-lignes-title"><i class="fa-solid fa-list" style="margin-right:6px;color:#1E3A5F"></i>Lignes de facturation</span>
+                <button type="button" class="btn sm primary" onclick="addLigne()"><i class="fa-solid fa-plus"></i>Ajouter</button>
+              </div>
+              <table class="fac-lignes-table">
+                <thead>
+                  <tr>
+                    <th style="width:40%">Description</th>
+                    <th style="width:12%">Qté</th>
+                    <th style="width:20%">Prix unitaire (FCFA)</th>
+                    <th style="width:20%">Montant HT</th>
+                    <th style="width:8%"></th>
+                  </tr>
+                </thead>
+                <tbody id="lignes-tbody"></tbody>
+              </table>
+              <div class="fac-totaux">
+                <div class="fac-total-row total-ht">
+                  <span>Sous-total HT</span>
+                  <span class="fac-total-val" id="total-ht">0 FCFA</span>
+                </div>
+                <div class="fac-total-row">
+                  <span>TVA (<span id="tva-label">19.25</span>%)</span>
+                  <span class="fac-total-val" id="total-tva">0 FCFA</span>
+                </div>
+                <div class="fac-total-row total-ttc">
+                  <span>Total TTC</span>
+                  <span class="fac-total-val" id="total-ttc">0 FCFA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:14px">
+              <label class="form-label">Notes / Conditions de paiement</label>
+              <textarea class="form-textarea" id="f-notes" placeholder="Ex : Paiement sous 30 jours par virement bancaire…"></textarea>
+            </div>
+          </div>
+
+          <div class="fac-modal-foot">
+            <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+            <button type="button" class="btn primary" onclick="saveModal()"><i class="fa-solid fa-check"></i>Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL DÉTAIL FACTURE ════ -->
+      <div class="modal-overlay" id="modal-detail" onclick="if(event.target===this)closeDetail()">
+        <div class="fac-detail-box">
+          <div class="fac-detail-hero">
+            <div class="fdh-top">
+              <div class="fdh-logo">
+                <div class="fdh-logo-mark"><i class="fa-solid fa-route"></i></div>
+                <div>
+                  <p class="fdh-logo-name">TransitFlow</p>
+                  <p class="fdh-logo-sub">ERP Logistique</p>
+                </div>
+              </div>
+              <div class="fdh-info">
+                <p class="fdh-num" id="detail-num">FAC-000</p>
+                <p class="fdh-title">FACTURE</p>
+              </div>
+            </div>
+            <div class="fdh-client-block">
+              <p class="fdh-client-lbl">Facturé à</p>
+              <p class="fdh-client-name" id="detail-client">—</p>
+              <p class="fdh-client-sub"  id="detail-dossier-ref">—</p>
+            </div>
+          </div>
+
+          <div class="fac-detail-body">
+            <div class="fac-detail-meta">
+              <div class="fdm-item">
+                <span class="fdm-lbl">Date d'émission</span>
+                <span class="fdm-val mono" id="detail-date-emission">—</span>
+              </div>
+              <div class="fdm-item">
+                <span class="fdm-lbl">Échéance</span>
+                <span class="fdm-val mono" id="detail-date-echeance">—</span>
+              </div>
+              <div class="fdm-item">
+                <span class="fdm-lbl">Statut</span>
+                <span class="fdm-val" id="detail-statut">—</span>
+              </div>
+            </div>
+
+            <table class="fac-lignes-view" id="detail-lignes-table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th style="text-align:right">Qté</th>
+                  <th style="text-align:right">P.U</th>
+                  <th style="text-align:right">Montant HT</th>
+                </tr>
+              </thead>
+              <tbody id="detail-lignes-body"></tbody>
+            </table>
+
+            <div class="fac-totaux-view">
+              <div class="fac-total-row total-ht">
+                <span>Sous-total HT</span>
+                <span class="fac-total-val" id="detail-ht">0 FCFA</span>
+              </div>
+              <div class="fac-total-row">
+                <span id="detail-tva-lbl">TVA (19.25%)</span>
+                <span class="fac-total-val" id="detail-tva">0 FCFA</span>
+              </div>
+              <div class="fac-total-row total-ttc">
+                <span>Total TTC</span>
+                <span class="fac-total-val" id="detail-ttc">0 FCFA</span>
+              </div>
+            </div>
+
+            <div id="detail-notes-block" style="font-size:12px;color:#6B7280;margin-top:8px;display:none">
+              <i class="fa-solid fa-note-sticky" style="margin-right:5px;color:#1E3A5F"></i>
+              <span id="detail-notes"></span>
+            </div>
+          </div>
+
+          <div class="fac-detail-foot">
+            <button class="btn" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i>Fermer</button>
+            <button class="btn primary" id="detail-edit-btn"><i class="fa-solid fa-pen"></i>Modifier</button>
+            <button class="btn orange" id="detail-pdf-btn"><i class="fa-solid fa-file-pdf"></i>PDF</button>
+            <button class="btn success" id="detail-pay-btn"><i class="fa-solid fa-circle-check"></i>Payée</button>
+            <button class="btn danger" id="detail-del-btn"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CONFIRMATION ════ -->
+      <div class="modal-overlay" id="modal-confirm" onclick="if(event.target===this)closeConfirm()">
+        <div class="fac-confirm-box">
+          <div class="fac-confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <p class="fac-confirm-title">Confirmer la suppression</p>
+          <p class="fac-confirm-msg" id="confirm-msg">Supprimer cette facture ?</p>
+          <div class="fac-confirm-actions">
+            <button class="btn" style="flex:1" onclick="closeConfirm()">Annuler</button>
+            <button class="btn danger" style="flex:1" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i>Supprimer</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:24px"></div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/base.js"></script>
+  <script src="assets/js/facture-pdf.js"></script>
+  <script src="assets/js/factures.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>

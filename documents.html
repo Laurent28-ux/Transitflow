@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Documents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/documents.css"/>
+</head>
+<body>
+  <div class="mob-overlay" id="mob-overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span><span class="nav-badge">42</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span><span class="nav-badge">8</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item active" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span><span class="nav-pip"></span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot"><div class="foot-user"><div class="foot-avatar">AD</div>
+      <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+    </div></div>
+  </aside>
+<div class="layout">
+  <div class="topbar">
+    <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+    <div class="topbar-title">
+      <p class="topbar-page">Documents</p>
+      <nav class="topbar-bc"><span class="bc-seg">TransitFlow</span><span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span><span class="bc-seg bc-cur">Espace documentaire</span></nav>
+    </div>
+    <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+    <div class="tb-icons">
+      <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Mode sombre"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+      <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+    </div>
+    <div class="tb-div"></div>
+    <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+  </div>
+  <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+  <aside class="notif-panel" id="notifPanel">
+    <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">3</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+    <div class="notif-list">
+      <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-file-circle-exclamation"></i></div><div class="ni-body"><p class="ni-title">Document douanier manquant</p><p class="ni-sub">il y a 2h</p></div></div>
+      <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-box"></i></div><div class="ni-body"><p class="ni-title">Colis TF-0198 livré</p><p class="ni-sub">il y a 12 min</p></div></div>
+      <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-truck"></i></div><div class="ni-body"><p class="ni-title">Véhicule LT-4821 en route</p><p class="ni-sub">il y a 1h</p></div></div>
+    </div>
+    <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+  </aside>
+  <nav class="mob-bottom-nav">
+    <a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a>
+    <a class="mbn-item" href="colis.html"><i class="fa-solid fa-boxes-stacked"></i><span class="mbn-lbl">Colis</span></a>
+    <a class="mbn-item" href="clients.html"><i class="fa-solid fa-users"></i><span class="mbn-lbl">Clients</span></a>
+    <a class="mbn-item active" href="documents.html"><i class="fa-solid fa-file-contract"></i><span class="mbn-lbl">Docs</span></a>
+    <a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a>
+  </nav>
+<main class="content" id="content">
+
+    <!-- ── STATS BANDE ── -->
+    <div class="doc-stats-band">
+      <div class="dsb-card active" data-type="all" style="--dsb-color:#0a0a0a">
+        <div class="dsb-icon"><i class="fa-solid fa-folder-open"></i></div>
+        <div class="dsb-info"><p class="dsb-num" id="ds-total">0</p><p class="dsb-lbl">Total documents</p></div>
+      </div>
+      <div class="dsb-card" data-type="facture" style="--dsb-color:#dc2626">
+        <div class="dsb-icon"><i class="fa-solid fa-file-invoice"></i></div>
+        <div class="dsb-info"><p class="dsb-num" id="ds-facture">0</p><p class="dsb-lbl">Factures</p></div>
+      </div>
+      <div class="dsb-card" data-type="douane" style="--dsb-color:#2c5ce0">
+        <div class="dsb-icon"><i class="fa-solid fa-stamp"></i></div>
+        <div class="dsb-info"><p class="dsb-num" id="ds-douane">0</p><p class="dsb-lbl">Douaniers</p></div>
+      </div>
+      <div class="dsb-card" data-type="livraison" style="--dsb-color:#1a8a4a">
+        <div class="dsb-icon"><i class="fa-solid fa-file-signature"></i></div>
+        <div class="dsb-info"><p class="dsb-num" id="ds-livraison">0</p><p class="dsb-lbl">Bons livraison</p></div>
+      </div>
+      <div class="dsb-card" data-type="contrat" style="--dsb-color:#a06800">
+        <div class="dsb-icon"><i class="fa-solid fa-file-contract"></i></div>
+        <div class="dsb-info"><p class="dsb-num" id="ds-contrat">0</p><p class="dsb-lbl">Contrats</p></div>
+      </div>
+    </div>
+
+    <!-- ── ZONE UPLOAD ── -->
+    <div class="upload-zone" id="upload-zone">
+      <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+      <p class="upload-title">Glissez vos documents ici</p>
+      <p class="upload-sub">ou cliquez pour parcourir vos fichiers</p>
+      <div class="upload-types">
+        <span class="upload-type-pill">PDF</span>
+        <span class="upload-type-pill">Word</span>
+        <span class="upload-type-pill">Excel</span>
+        <span class="upload-type-pill">Images</span>
+      </div>
+      <div class="upload-progress" id="upload-progress">
+        <div class="upload-progress-bar"><div class="upload-progress-fill" id="upload-bar"></div></div>
+        <p class="upload-progress-txt" id="upload-txt">Importation…</p>
+      </div>
+      <input type="file" id="upload-input" class="upload-input" multiple
+             accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"/>
+    </div>
+
+    <!-- ── TOOLBAR ── -->
+    <div class="doc-toolbar">
+      <div class="doc-tabs">
+        <button class="doc-tab active" data-type="all"><i class="fa-solid fa-border-all"></i>Tous<span class="tab-count" id="tc-all">0</span></button>
+        <button class="doc-tab" data-type="facture"><i class="fa-solid fa-file-invoice"></i>Factures<span class="tab-count" id="tc-facture">0</span></button>
+        <button class="doc-tab" data-type="douane"><i class="fa-solid fa-stamp"></i>Douaniers<span class="tab-count" id="tc-douane">0</span></button>
+        <button class="doc-tab" data-type="livraison"><i class="fa-solid fa-file-signature"></i>Bons livraison<span class="tab-count" id="tc-livraison">0</span></button>
+        <button class="doc-tab" data-type="contrat"><i class="fa-solid fa-file-contract"></i>Contrats<span class="tab-count" id="tc-contrat">0</span></button>
+        <button class="doc-tab" data-type="pdf"><i class="fa-solid fa-file-pdf"></i>PDF divers<span class="tab-count" id="tc-pdf">0</span></button>
+      </div>
+      <div class="doc-toolbar-right">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="doc-search" type="text" placeholder="Rechercher…"/></div>
+        <button class="btn" onclick="openAddModal()"><i class="fa-solid fa-plus"></i>Ajouter</button>
+      </div>
+    </div>
+
+    <!-- ── BIBLIOTHÈQUE ── -->
+    <div class="library-card">
+      <div class="library-head">
+        <div class="lh-icon"><i class="fa-solid fa-folder-open"></i></div>
+        <div><p class="lh-title">Bibliothèque documentaire</p><p class="lh-sub" id="lib-sub">Chargement…</p></div>
+        <div class="lh-action">
+          <div class="view-toggle">
+            <button class="vt-btn active" id="vt-list" onclick="setView('list')" title="Vue liste"><i class="fa-solid fa-list"></i></button>
+            <button class="vt-btn" id="vt-grid" onclick="setView('grid')" title="Vue grille"><i class="fa-solid fa-grip"></i></button>
+          </div>
+          <button class="btn sm" onclick="exportDocList()"><i class="fa-solid fa-file-export"></i>Exporter liste</button>
+        </div>
+      </div>
+
+      <!-- Liste -->
+      <div class="doc-list" id="doc-list"></div>
+
+      <!-- Grille -->
+      <div class="doc-grid" id="doc-grid" style="display:none"></div>
+    </div>
+
+    <!-- ══ MODAL APERÇU ══ -->
+    <div class="modal-overlay" id="preview-modal" onclick="if(event.target===this)closePreview()">
+      <div class="preview-box">
+        <div class="preview-head">
+          <div class="preview-icon" id="prev-icon"><i class="fa-solid fa-file"></i></div>
+          <div style="flex:1;min-width:0">
+            <p class="preview-title" id="prev-name">Document</p>
+            <p class="preview-sub"   id="prev-meta">—</p>
+          </div>
+          <button class="preview-close" onclick="closePreview()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="preview-body">
+          <div id="prev-fields"></div>
+        </div>
+        <div class="preview-foot">
+          <button class="btn" style="flex:1" onclick="closePreview()"><i class="fa-solid fa-xmark"></i>Fermer</button>
+          <button class="btn primary" style="flex:1" id="prev-dl-btn"><i class="fa-solid fa-download"></i>Télécharger</button>
+          <button class="btn danger" id="prev-del-btn"><i class="fa-solid fa-trash"></i>Supprimer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MODAL AJOUT MANUEL ══ -->
+    <div class="modal-overlay" id="add-modal" onclick="if(event.target===this)closeAddModal()">
+      <div class="modal-box" style="width:480px">
+        <div class="modal-head">
+          <div><p class="modal-title">Référencer un document</p><p class="modal-sub">Enregistrez un document manuellement</p></div>
+          <button class="modal-close" onclick="closeAddModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form class="modal-body" id="add-form">
+          <div class="form-group">
+            <label class="form-label">Nom du document *</label>
+            <input class="form-input" id="af-nom" type="text" placeholder="Ex : Facture-client-2024.pdf"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Type</label>
+              <select class="form-select" id="af-type">
+                <option value="facture">Facture</option>
+                <option value="douane">Douanier</option>
+                <option value="livraison">Bon de livraison</option>
+                <option value="contrat">Contrat</option>
+                <option value="pdf">PDF divers</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Référence colis (optionnel)</label>
+              <input class="form-input" id="af-ref" type="text" placeholder="TF-2024-0198"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <input class="form-input" id="af-desc" type="text" placeholder="Description courte…"/>
+          </div>
+          <div class="modal-foot">
+            <button type="button" class="btn" onclick="closeAddModal()">Annuler</button>
+            <button type="submit" class="btn primary"><i class="fa-solid fa-check"></i>Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<div style="height:24px"></div>
+</main>
+</div>
+<script>
+function exportDocList() {
+  const data = JSON.parse(localStorage.getItem('tf_documents_v1') || '[]');
+  if (!data.length) { alert('Aucun document à exporter.'); return; }
+  const headers = ['ID','Nom','Type','Taille','Date','Colis lié','Description'];
+  const rows = data.map(d => [d.id,d.nom,d.type,d.taille,d.date,d.colisRef||'',d.description||''].join(';'));
+  const csv = [headers.join(';'), ...rows].join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'), {href:url, download:'transitflow-documents.csv'}).click();
+  URL.revokeObjectURL(url);
+}
+</script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/base.js"></script>
+<script src="assets/js/documents.js"></script>
+</body>
+</html>

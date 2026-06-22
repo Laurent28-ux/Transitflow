@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Paiements</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/paiements.css"/>
+</head>
+<body>
+
+  <div class="mob-overlay" id="mob-overlay"></div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item active" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span><span class="nav-pip"></span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Administration</p>
+      <a class="nav-item" href="utilisateurs.html" id="nav-utilisateurs"><span class="nav-ico"><i class="fa-solid fa-users-gear"></i></span><span class="nav-txt">Utilisateurs</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot">
+      <div class="foot-user">
+        <div class="foot-avatar">AD</div>
+        <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="layout">
+    <!-- ── TOPBAR ── -->
+    <div class="topbar">
+      <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <p class="topbar-page">Paiements</p>
+        <nav class="topbar-bc">
+          <span class="bc-seg">TransitFlow</span>
+          <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+          <span class="bc-seg bc-cur">Suivi des encaissements</span>
+        </nav>
+      </div>
+      <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+      <div class="tb-icons">
+        <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+        <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+        <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+    </div>
+
+    <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+
+    <!-- ── NOTIFICATIONS ── -->
+    <aside class="notif-panel" id="notifPanel">
+      <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">2</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+      <div class="notif-list">
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-money-bill-wave"></i></div><div class="ni-body"><p class="ni-title">Paiement PAY-003 confirmé</p><p class="ni-sub">il y a 45 min</p></div></div>
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="ni-body"><p class="ni-title">FAC-003 toujours impayée</p><p class="ni-sub">il y a 2h</p></div></div>
+      </div>
+      <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+    </aside>
+
+    <!-- ── NAV MOBILE ── -->
+    <nav class="mob-bottom-nav">
+      <a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a>
+      <a class="mbn-item" href="factures.html"><i class="fa-solid fa-file-invoice-dollar"></i><span class="mbn-lbl">Factures</span></a>
+      <a class="mbn-item active" href="paiements.html"><i class="fa-solid fa-money-bill-wave"></i><span class="mbn-lbl">Paiements</span></a>
+      <a class="mbn-item" href="clients.html"><i class="fa-solid fa-users"></i><span class="mbn-lbl">Clients</span></a>
+      <a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a>
+    </nav>
+
+    <!-- ══ CONTENU ══ -->
+    <main class="content" id="content">
+
+      <!-- STATS -->
+      <div class="pay-stats-row">
+        <div class="pay-stat-card">
+          <div class="pay-stat-ico"><i class="fa-solid fa-money-bill-wave"></i></div>
+          <div class="pay-stat-body">
+            <p class="pay-stat-lbl">Total paiements</p>
+            <p class="pay-stat-num" id="ps-total">0</p>
+            <p class="pay-stat-foot">Toutes périodes</p>
+          </div>
+        </div>
+        <div class="pay-stat-card">
+          <div class="pay-stat-ico" style="color:var(--pay-green)"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="pay-stat-body">
+            <p class="pay-stat-lbl">Confirmés</p>
+            <p class="pay-stat-num" id="ps-confirmes">0</p>
+            <p class="pay-stat-amt" id="ps-confirmes-amt">0 FCFA</p>
+          </div>
+        </div>
+        <div class="pay-stat-card">
+          <div class="pay-stat-ico" style="color:var(--pay-orange)"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div class="pay-stat-body">
+            <p class="pay-stat-lbl">En attente</p>
+            <p class="pay-stat-num" id="ps-attente">0</p>
+            <p class="pay-stat-amt" id="ps-attente-amt">0 FCFA</p>
+          </div>
+        </div>
+        <div class="pay-stat-card">
+          <div class="pay-stat-ico" style="color:var(--pay-blue)"><i class="fa-solid fa-mobile-screen-button"></i></div>
+          <div class="pay-stat-body">
+            <p class="pay-stat-lbl">Mobile Money</p>
+            <p class="pay-stat-num" id="ps-mobile">0</p>
+            <p class="pay-stat-foot">Mode le + utilisé</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="pay-toolbar">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="pay-search" type="text" placeholder="Référence, facture, client…"/>
+        </div>
+        <select class="pay-select" id="pay-filter-statut">
+          <option value="all">Tous les statuts</option>
+          <option value="confirme">Confirmé</option>
+          <option value="en_attente">En attente</option>
+          <option value="echoue">Échoué</option>
+          <option value="rembourse">Remboursé</option>
+        </select>
+        <select class="pay-select" id="pay-filter-mode">
+          <option value="all">Tous les modes</option>
+          <option value="mobile">Mobile Money</option>
+          <option value="virement">Virement bancaire</option>
+          <option value="especes">Espèces</option>
+          <option value="cheque">Chèque</option>
+          <option value="carte">Carte bancaire</option>
+        </select>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="btn" onclick="exportPaiements()"><i class="fa-solid fa-file-arrow-down"></i>Exporter</button>
+          <button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouveau paiement</button>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="pay-table-card">
+        <div class="pay-table-head">
+          <div class="pth-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+          <div>
+            <p class="pth-title">Historique des paiements</p>
+            <p class="pth-sub" id="pth-sub">Chargement…</p>
+          </div>
+          <div class="pth-action">
+            <button class="btn sm primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouveau</button>
+          </div>
+        </div>
+
+        <div class="pay-table-scroll">
+          <table class="pay-table">
+            <thead>
+              <tr>
+                <th>Référence</th>
+                <th>Facture</th>
+                <th>Montant</th>
+                <th>Mode de paiement</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pay-tbody">
+              <tr><td colspan="7" style="text-align:center;padding:40px;color:#9e9e9a">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size:24px;display:block;margin-bottom:8px"></i>Chargement…
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pay-pagination">
+          <span id="pay-pag-info">—</span>
+          <div class="pay-pag-btns" id="pay-pag-btns"></div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CRÉATION / ÉDITION ════ -->
+      <div class="modal-overlay" id="modal-form" onclick="if(event.target===this)closeModal()">
+        <div class="pay-modal-box">
+          <div class="pay-modal-head">
+            <div class="pay-modal-ico"><i class="fa-solid fa-money-bill-wave"></i></div>
+            <div>
+              <p class="pay-modal-title" id="modal-title">Nouveau paiement</p>
+              <p class="pay-modal-sub"   id="modal-sub">Enregistrer un encaissement</p>
+            </div>
+            <button class="pay-modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="pay-modal-body">
+
+            <!-- Aperçu facture sélectionnée -->
+            <div class="pay-fac-preview" id="fac-preview">
+              <p class="pfp-label"><i class="fa-solid fa-file-invoice-dollar" style="margin-right:4px"></i>Facture sélectionnée</p>
+              <div class="pfp-row"><span>Numéro</span><span class="pfp-val" id="prev-num">—</span></div>
+              <div class="pfp-row"><span>Client</span><span class="pfp-val" id="prev-client">—</span></div>
+              <div class="pfp-row"><span>Montant TTC</span><span class="pfp-val" id="prev-ttc">—</span></div>
+              <div class="pfp-row"><span>Reste à payer</span><span class="pfp-reste" id="prev-reste">—</span></div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Facture <span class="req">*</span></label>
+                <select class="form-select" id="f-facture" onchange="onFactureChange()">
+                  <option value="">— Sélectionner une facture —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Montant payé (FCFA) <span class="req">*</span></label>
+                <input class="form-input" id="f-montant" type="number" min="0" placeholder="0"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Mode de paiement <span class="req">*</span></label>
+                <select class="form-select" id="f-mode">
+                  <option value="mobile">Mobile Money</option>
+                  <option value="virement">Virement bancaire</option>
+                  <option value="especes">Espèces</option>
+                  <option value="cheque">Chèque</option>
+                  <option value="carte">Carte bancaire</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date de paiement <span class="req">*</span></label>
+                <input class="form-input" id="f-date" type="date"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Référence transaction</label>
+                <input class="form-input" id="f-ref-transaction" type="text" placeholder="Ex: TXN-2026-001"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Statut</label>
+                <select class="form-select" id="f-statut">
+                  <option value="confirme">Confirmé</option>
+                  <option value="en_attente">En attente</option>
+                  <option value="echoue">Échoué</option>
+                  <option value="rembourse">Remboursé</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Notes (optionnel)</label>
+              <input class="form-input" id="f-notes" type="text" placeholder="Remarques sur ce paiement…"/>
+            </div>
+          </div>
+          <div class="pay-modal-foot">
+            <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+            <button type="button" class="btn primary" onclick="saveModal()"><i class="fa-solid fa-check"></i>Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL DÉTAIL ════ -->
+      <div class="modal-overlay" id="modal-detail" onclick="if(event.target===this)closeDetail()">
+        <div class="pay-detail-box">
+          <div class="pay-detail-hero">
+            <p class="pdh-ref" id="detail-ref">PAY-000</p>
+            <p class="pdh-amt" id="detail-amt">0 FCFA</p>
+            <div class="pdh-pills">
+              <span class="pdh-pill" id="detail-statut-pill"><i class="fa-solid fa-circle"></i>—</span>
+              <span class="pdh-pill" id="detail-mode-pill"><i class="fa-solid fa-credit-card"></i>—</span>
+              <span class="pdh-pill"><i class="fa-solid fa-calendar"></i><span id="detail-date">—</span></span>
+            </div>
+          </div>
+          <div class="pay-detail-body">
+            <div class="pdb-row">
+              <div class="pdb-ico"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+              <div><p class="pdb-lbl">Facture associée</p><p class="pdb-val" id="detail-facture">—</p></div>
+            </div>
+            <div class="pdb-row">
+              <div class="pdb-ico"><i class="fa-solid fa-user"></i></div>
+              <div><p class="pdb-lbl">Client</p><p class="pdb-val" id="detail-client">—</p></div>
+            </div>
+            <div class="pdb-row">
+              <div class="pdb-ico"><i class="fa-solid fa-hashtag"></i></div>
+              <div><p class="pdb-lbl">Référence transaction</p><p class="pdb-val" id="detail-ref-trans" style="font-family:'DM Mono',monospace">—</p></div>
+            </div>
+            <div class="pdb-row">
+              <div class="pdb-ico"><i class="fa-solid fa-note-sticky"></i></div>
+              <div><p class="pdb-lbl">Notes</p><p class="pdb-val" id="detail-notes" style="font-weight:400;color:#6B7280">—</p></div>
+            </div>
+          </div>
+          <div class="pay-detail-foot">
+            <button class="btn" style="flex:1" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i>Fermer</button>
+            <button class="btn primary" style="flex:1" id="detail-edit-btn"><i class="fa-solid fa-pen"></i>Modifier</button>
+            <button class="btn danger" id="detail-del-btn"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CONFIRMATION ════ -->
+      <div class="modal-overlay" id="modal-confirm" onclick="if(event.target===this)closeConfirm()">
+        <div class="pay-confirm-box">
+          <div class="pay-confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <p class="pay-confirm-title">Confirmer la suppression</p>
+          <p class="pay-confirm-msg" id="confirm-msg">Supprimer ce paiement ?</p>
+          <div class="pay-confirm-actions">
+            <button class="btn" style="flex:1" onclick="closeConfirm()">Annuler</button>
+            <button class="btn danger" style="flex:1" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i>Supprimer</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:24px"></div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/base.js"></script>
+  <script src="assets/js/paiements.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>

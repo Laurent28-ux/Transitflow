@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Dossiers de Transit</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/dossiers.css"/>
+</head>
+<body>
+
+  <div class="mob-overlay" id="mob-overlay"></div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item active" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span><span class="nav-pip"></span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot">
+      <div class="foot-user">
+        <div class="foot-avatar">AD</div>
+        <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="layout">
+
+    <!-- ── TOPBAR ── -->
+    <div class="topbar">
+      <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <p class="topbar-page">Dossiers de Transit</p>
+        <nav class="topbar-bc">
+          <span class="bc-seg">TransitFlow</span>
+          <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+          <span class="bc-seg bc-cur">Suivi des opérations logistiques</span>
+        </nav>
+      </div>
+      <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+      <div class="tb-icons">
+        <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Mode sombre"><i class="fa-solid fa-moon"></i></button>
+        <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+        <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+    </div>
+
+    <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+
+    <!-- ── PANEL NOTIFICATIONS ── -->
+    <aside class="notif-panel" id="notifPanel">
+      <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">3</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+      <div class="notif-list">
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-folder-open"></i></div><div class="ni-body"><p class="ni-title">Dossier TR-003 en livraison</p><p class="ni-sub">il y a 30 min</p></div></div>
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-box"></i></div><div class="ni-body"><p class="ni-title">Colis TF-0198 livré</p><p class="ni-sub">il y a 1h</p></div></div>
+        <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-truck"></i></div><div class="ni-body"><p class="ni-title">Véhicule LT-4821 en route</p><p class="ni-sub">il y a 2h</p></div></div>
+      </div>
+      <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+    </aside>
+
+    <!-- ── NAV MOBILE BAS ── -->
+    <nav class="mob-bottom-nav">
+      <a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a>
+      <a class="mbn-item" href="colis.html"><i class="fa-solid fa-boxes-stacked"></i><span class="mbn-lbl">Colis</span></a>
+      <a class="mbn-item active" href="dossiers.html"><i class="fa-solid fa-folder-open"></i><span class="mbn-lbl">Dossiers</span></a>
+      <a class="mbn-item" href="documents.html"><i class="fa-solid fa-file-contract"></i><span class="mbn-lbl">Docs</span></a>
+      <a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a>
+    </nav>
+
+    <!-- ══════════════════════════════════════════
+         CONTENU PRINCIPAL
+    ══════════════════════════════════════════ -->
+    <main class="content" id="content">
+
+      <!-- STATS -->
+      <div class="dos-stats-row">
+        <div class="dos-stat-card">
+          <div class="dos-stat-icon"><i class="fa-solid fa-folder-open"></i></div>
+          <div class="dos-stat-body">
+            <p class="dos-stat-lbl">Total dossiers</p>
+            <p class="dos-stat-num" id="ds-total">0</p>
+            <p class="dos-stat-foot">Toutes opérations</p>
+          </div>
+        </div>
+        <div class="dos-stat-card">
+          <div class="dos-stat-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <div class="dos-stat-body">
+            <p class="dos-stat-lbl">En transit</p>
+            <p class="dos-stat-num" id="ds-transit">0</p>
+            <p class="dos-stat-foot">En cours d'acheminement</p>
+          </div>
+        </div>
+        <div class="dos-stat-card">
+          <div class="dos-stat-icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="dos-stat-body">
+            <p class="dos-stat-lbl">En livraison</p>
+            <p class="dos-stat-num" id="ds-livraison">0</p>
+            <p class="dos-stat-foot">Dernière étape</p>
+          </div>
+        </div>
+        <div class="dos-stat-card">
+          <div class="dos-stat-icon" style="color:var(--dos-orange)"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="dos-stat-body">
+            <p class="dos-stat-lbl">Clôturés ce mois</p>
+            <p class="dos-stat-num" id="ds-clotures">0</p>
+            <p class="dos-stat-foot">Opérations terminées</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="dos-toolbar">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="dos-search" type="text" placeholder="Numéro, client, origine…"/>
+        </div>
+        <select class="filter-select" id="dos-filter-statut">
+          <option value="all">Tous les statuts</option>
+          <option value="cree">Créé</option>
+          <option value="transit">En transit</option>
+          <option value="livraison">En livraison</option>
+          <option value="livre">Livré</option>
+          <option value="cloture">Clôturé</option>
+        </select>
+        <select class="filter-select" id="dos-filter-client">
+          <option value="all">Tous les clients</option>
+        </select>
+        <div style="margin-left:auto; display:flex; gap:8px;">
+          <button class="btn" onclick="exportDossiers()"><i class="fa-solid fa-file-arrow-down"></i>Exporter</button>
+          <button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouveau dossier</button>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="dos-table-card">
+        <div class="dos-table-head">
+          <div class="dth-icon"><i class="fa-solid fa-folder-open"></i></div>
+          <div>
+            <p class="dth-title">Liste des dossiers de transit</p>
+            <p class="dth-sub" id="dth-sub">Chargement…</p>
+          </div>
+          <div class="dth-action">
+            <button class="btn sm primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouveau</button>
+          </div>
+        </div>
+
+        <div class="dos-table-scroll">
+          <table class="dos-table">
+            <thead>
+              <tr>
+                <th>N° Dossier</th>
+                <th>Client</th>
+                <th>Marchandise</th>
+                <th>Itinéraire</th>
+                <th>Date création</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dos-tbody">
+              <tr><td colspan="7" style="text-align:center;padding:40px;color:#9e9e9a">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size:24px;display:block;margin-bottom:8px"></i>
+                Chargement…
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="dos-pagination">
+          <span class="dos-pag-info" id="dos-pag-info">—</span>
+          <div class="dos-pag-btns" id="dos-pag-btns"></div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CRÉATION / ÉDITION ════ -->
+      <div class="modal-overlay" id="modal-form" onclick="if(event.target===this)closeModal()">
+        <div class="dos-modal-box">
+          <div class="dos-modal-head">
+            <div class="dos-modal-icon"><i class="fa-solid fa-folder-plus"></i></div>
+            <div>
+              <p class="dos-modal-title" id="modal-title">Nouveau dossier de transit</p>
+              <p class="dos-modal-sub" id="modal-sub">Renseignez les informations de l'opération</p>
+            </div>
+            <button class="dos-modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <form class="dos-modal-body" id="dos-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Client <span class="req">*</span></label>
+                <select class="form-select" id="f-client"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Statut</label>
+                <select class="form-select" id="f-statut">
+                  <option value="cree">Créé</option>
+                  <option value="transit">En transit</option>
+                  <option value="livraison">En livraison</option>
+                  <option value="livre">Livré</option>
+                  <option value="cloture">Clôturé</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:14px">
+              <label class="form-label">Description de la marchandise <span class="req">*</span></label>
+              <input class="form-input" id="f-description" type="text" placeholder="Ex : Matériel informatique, vêtements…"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Origine <span class="req">*</span></label>
+                <input class="form-input" id="f-origine" type="text" placeholder="Ex : Chine, Paris…"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Destination <span class="req">*</span></label>
+                <input class="form-input" id="f-destination" type="text" placeholder="Ex : Douala, Yaoundé…"/>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Notes (optionnel)</label>
+              <textarea class="form-textarea" id="f-notes" placeholder="Informations complémentaires…"></textarea>
+            </div>
+          </form>
+
+          <div class="dos-modal-foot">
+            <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+            <button type="button" class="btn primary" onclick="saveModal()"><i class="fa-solid fa-check"></i>Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL DÉTAIL DOSSIER ════ -->
+      <div class="modal-overlay" id="modal-detail" onclick="if(event.target===this)closeDetail()">
+        <div class="dos-detail-box">
+          <div class="dos-detail-hero">
+            <p class="ddh-numero" id="detail-numero">TR-000</p>
+            <p class="ddh-client" id="detail-client">—</p>
+            <div class="ddh-route">
+              <i class="fa-solid fa-location-dot"></i>
+              <span id="detail-origine">—</span>
+              <i class="fa-solid fa-arrow-right"></i>
+              <span id="detail-destination">—</span>
+            </div>
+          </div>
+
+          <div class="dos-detail-body">
+            <!-- Timeline statut -->
+            <p class="ddb-section-title"><i class="fa-solid fa-route" style="margin-right:5px"></i>Progression</p>
+            <div class="dos-timeline" id="detail-timeline">
+              <div class="dt-step" data-s="cree">
+                <div class="dt-dot"><i class="fa-solid fa-file-circle-plus"></i></div>
+                <span class="dt-lbl">Créé</span>
+              </div>
+              <div class="dt-step" data-s="transit">
+                <div class="dt-dot"><i class="fa-solid fa-plane-departure"></i></div>
+                <span class="dt-lbl">Transit</span>
+              </div>
+              <div class="dt-step" data-s="livraison">
+                <div class="dt-dot"><i class="fa-solid fa-truck-fast"></i></div>
+                <span class="dt-lbl">Livraison</span>
+              </div>
+              <div class="dt-step" data-s="livre">
+                <div class="dt-dot"><i class="fa-solid fa-circle-check"></i></div>
+                <span class="dt-lbl">Livré</span>
+              </div>
+              <div class="dt-step" data-s="cloture">
+                <div class="dt-dot"><i class="fa-solid fa-folder-closed"></i></div>
+                <span class="dt-lbl">Clôturé</span>
+              </div>
+            </div>
+
+            <p class="ddb-section-title"><i class="fa-solid fa-circle-info" style="margin-right:5px"></i>Informations</p>
+            <div class="ddb-fields">
+              <div class="ddb-field">
+                <span class="ddb-field-lbl">Marchandise</span>
+                <span class="ddb-field-val" id="detail-description">—</span>
+              </div>
+              <div class="ddb-field">
+                <span class="ddb-field-lbl">Date de création</span>
+                <span class="ddb-field-val" id="detail-date">—</span>
+              </div>
+              <div class="ddb-field">
+                <span class="ddb-field-lbl">Statut actuel</span>
+                <span class="ddb-field-val" id="detail-statut-badge">—</span>
+              </div>
+              <div class="ddb-field">
+                <span class="ddb-field-lbl">Notes</span>
+                <span class="ddb-field-val" id="detail-notes" style="font-weight:400;color:#6B7280">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dos-detail-foot">
+            <button class="btn" style="flex:1" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i>Fermer</button>
+            <button class="btn primary" style="flex:1" id="detail-edit-btn"><i class="fa-solid fa-pen"></i>Modifier</button>
+            <button class="btn danger" id="detail-del-btn"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CONFIRMATION SUPPRESSION ════ -->
+      <div class="modal-overlay" id="modal-confirm" onclick="if(event.target===this)closeConfirm()">
+        <div class="dos-confirm-box">
+          <div class="dos-confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <p class="dos-confirm-title">Confirmer la suppression</p>
+          <p class="dos-confirm-msg" id="confirm-msg">Supprimer ce dossier ?</p>
+          <div class="dos-confirm-actions">
+            <button class="btn" style="flex:1" onclick="closeConfirm()">Annuler</button>
+            <button class="btn danger" style="flex:1" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i>Supprimer</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:24px"></div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/base.js"></script>
+  <script src="assets/js/dossiers.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>

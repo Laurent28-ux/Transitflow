@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Accès refusé</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background: #f0f4f8;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card {
+      background: #fff; border-radius: 20px;
+      padding: 52px 44px; text-align: center;
+      max-width: 440px; width: 90%;
+      box-shadow: 0 12px 40px rgba(30,58,95,.12);
+    }
+    .icon-wrap {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: #FEF2F2; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .icon-wrap i { font-size: 34px; color: #DC2626; }
+    h1 { font-size: 22px; font-weight: 900; color: #1E3A5F; margin-bottom: 10px; }
+    p  { font-size: 14px; color: #6B7280; line-height: 1.6; margin-bottom: 6px; }
+    .role-info {
+      background: #F3F4F6; border-radius: 10px;
+      padding: 12px 16px; margin: 20px 0;
+      font-size: 13px; color: #374151;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .role-info i { color: #1E3A5F; font-size: 16px; }
+    .btns { display: flex; gap: 10px; margin-top: 24px; }
+    .btn {
+      flex: 1; height: 44px; border-radius: 10px;
+      border: 1px solid #e4e4e1; background: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      gap: 7px; transition: all .2s; text-decoration: none; color: #374151;
+    }
+    .btn:hover  { background: #F3F4F6; }
+    .btn.primary { background: #1E3A5F; border-color: #1E3A5F; color: #fff; }
+    .btn.primary:hover { background: #162d4a; }
+    .brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 32px; }
+    .brand-mark { width: 36px; height: 36px; border-radius: 9px; background: #F97316;
+                  color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+    .brand-name { font-size: 18px; font-weight: 900; color: #1E3A5F; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <span class="brand-name">TransitFlow</span>
+    </div>
+    <div class="icon-wrap"><i class="fa-solid fa-shield-halved"></i></div>
+    <h1>Accès refusé</h1>
+    <p>Vous n'avez pas les permissions nécessaires pour accéder à cette page.</p>
+    <div class="role-info" id="role-info">
+      <i class="fa-solid fa-user-gear"></i>
+      <span id="role-text">Votre profil ne permet pas d'accéder à cette section.</span>
+    </div>
+    <p style="font-size:12px">Contactez votre administrateur si vous pensez qu'il s'agit d'une erreur.</p>
+    <div class="btns">
+      <a class="btn" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i>Dashboard</a>
+      <a class="btn primary" onclick="TFAuth?.logout()" href="login.html">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>Se déconnecter
+      </a>
+    </div>
+  </div>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    const session = TFAuth.getSession();
+    const roleLabels = { admin:'Administrateur', transitaire:'Transitaire', comptable:'Comptable', directeur:'Directeur' };
+    if (session) {
+      document.getElementById('role-text').textContent =
+        `Vous êtes connecté en tant que ${roleLabels[session.role] || session.role}. Ce rôle n'a pas accès à cette page.`;
+    } else {
+      document.getElementById('role-text').textContent = 'Vous n\'êtes pas connecté.';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,706 @@
+/* ── TransitFlow · dossiers.css ──────────────────────
+   Palette : Bleu Marine #1E3A5F · Accent Orange #F97316
+   Texte   : #0a0a0a · Surface : #F3F4F6 · Blanc : #FFFFFF
+─────────────────────────────────────────────────────── */
+
+/* ── VARIABLES LOCALES ── */
+:root {
+  --dos-navy   : #1E3A5F;
+  --dos-blue   : #2563EB;
+  --dos-orange : #F97316;
+  --dos-gray   : #F3F4F6;
+  --dos-border : #E5E7EB;
+  --dos-text   : #0a0a0a;
+  --dos-muted  : #6B7280;
+  --dos-white  : #FFFFFF;
+}
+
+/* ── STATS BANDE ── */
+.dos-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.dos-stat-card {
+  background: var(--dos-white);
+  border: 1px solid var(--dos-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+
+.dos-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--dos-navy);
+  border-radius: 12px 0 0 12px;
+}
+
+.dos-stat-card:nth-child(4)::before { background: var(--dos-orange); }
+
+.dos-stat-card:hover {
+  box-shadow: 0 4px 16px rgba(30,58,95,.10);
+  transform: translateY(-2px);
+}
+
+.dos-stat-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  background: var(--dos-gray);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: var(--dos-navy);
+  flex-shrink: 0;
+}
+
+.dos-stat-body { flex: 1; min-width: 0; }
+
+.dos-stat-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--dos-muted);
+  margin: 0 0 4px;
+}
+
+.dos-stat-num {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dos-text);
+  margin: 0;
+  line-height: 1;
+}
+
+.dos-stat-foot {
+  font-size: 11px;
+  color: var(--dos-muted);
+  margin: 4px 0 0;
+}
+
+/* ── TOOLBAR ── */
+.dos-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.dos-toolbar .search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--dos-white);
+  border: 1px solid var(--dos-border);
+  border-radius: 8px;
+  padding: 0 12px;
+  height: 38px;
+  min-width: 220px;
+  color: var(--dos-muted);
+  font-size: 13px;
+  transition: border-color .2s;
+}
+
+.dos-toolbar .search-box:focus-within {
+  border-color: var(--dos-navy);
+  box-shadow: 0 0 0 3px rgba(30,58,95,.08);
+}
+
+.dos-toolbar .search-box input {
+  border: none; outline: none; background: transparent;
+  font-family: inherit; font-size: 13px; color: var(--dos-text);
+  width: 100%;
+}
+
+.filter-select {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--dos-border);
+  border-radius: 8px;
+  background: var(--dos-white);
+  font-size: 13px;
+  color: var(--dos-text);
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--dos-navy);
+}
+
+/* ── BOUTONS ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  height: 38px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--dos-border);
+  background: var(--dos-white);
+  color: var(--dos-text);
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.btn:hover { background: var(--dos-gray); }
+
+.btn.primary {
+  background: var(--dos-navy);
+  border-color: var(--dos-navy);
+  color: var(--dos-white);
+}
+
+.btn.primary:hover {
+  background: #162d4a;
+  border-color: #162d4a;
+}
+
+.btn.orange {
+  background: var(--dos-orange);
+  border-color: var(--dos-orange);
+  color: var(--dos-white);
+}
+
+.btn.orange:hover { background: #ea6c05; border-color: #ea6c05; }
+
+.btn.danger { color: #dc2626; border-color: #fee2e2; background: #fff5f5; }
+.btn.danger:hover { background: #fee2e2; }
+
+.btn.sm { height: 30px; padding: 0 10px; font-size: 12px; }
+
+/* ── TABLE CARD ── */
+.dos-table-card {
+  background: var(--dos-white);
+  border: 1px solid var(--dos-border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.dos-table-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--dos-border);
+}
+
+.dth-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--dos-navy);
+  color: var(--dos-white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+
+.dth-title { font-size: 14px; font-weight: 600; color: var(--dos-text); margin: 0; }
+.dth-sub   { font-size: 12px; color: var(--dos-muted); margin: 0; }
+
+.dth-action { margin-left: auto; }
+
+/* ── TABLE ── */
+.dos-table-scroll { overflow-x: auto; }
+
+.dos-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.dos-table thead th {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--dos-muted);
+  background: var(--dos-gray);
+  border-bottom: 1px solid var(--dos-border);
+  white-space: nowrap;
+}
+
+.dos-table tbody tr {
+  border-bottom: 1px solid var(--dos-border);
+  transition: background .12s;
+  cursor: pointer;
+}
+
+.dos-table tbody tr:last-child { border-bottom: none; }
+.dos-table tbody tr:hover { background: #f8fafc; }
+
+.dos-table td {
+  padding: 13px 16px;
+  color: var(--dos-text);
+  vertical-align: middle;
+}
+
+/* Cellule numéro dossier */
+.td-numero {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dos-navy) !important;
+}
+
+/* Cellule client */
+.td-client-cell {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.td-cl-av {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: var(--dos-navy);
+  color: var(--dos-white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.td-cl-name  { font-size: 13px; font-weight: 500; color: var(--dos-text); margin: 0; }
+.td-cl-type  { font-size: 11px; color: var(--dos-muted); margin: 0; }
+
+/* Cellule route */
+.td-route {
+  font-size: 12px;
+  color: var(--dos-muted);
+}
+
+.td-route-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.td-route-arrow .fa-arrow-right {
+  color: var(--dos-orange);
+  font-size: 10px;
+}
+
+/* ── BADGES STATUT ── */
+.dos-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dos-badge i { font-size: 11px; }
+
+.dos-badge.cree      { background: #EFF6FF; color: #1D4ED8; }
+.dos-badge.transit   { background: #FFF7ED; color: #C2410C; }
+.dos-badge.livraison { background: #EDE9FE; color: #6D28D9; }
+.dos-badge.livre     { background: #F0FDF4; color: #15803D; }
+.dos-badge.cloture   { background: #F3F4F6; color: #6B7280; }
+
+/* ── ACTIONS ── */
+.dos-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── PAGINATION ── */
+.dos-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--dos-border);
+  font-size: 12px;
+  color: var(--dos-muted);
+}
+
+.dos-pag-btns { display: flex; gap: 4px; }
+
+.dos-pag-btn {
+  width: 30px; height: 30px;
+  border-radius: 6px;
+  border: 1px solid var(--dos-border);
+  background: var(--dos-white);
+  font-size: 12px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--dos-text);
+  transition: all .15s;
+}
+
+.dos-pag-btn:hover { background: var(--dos-gray); }
+.dos-pag-btn.active { background: var(--dos-navy); color: var(--dos-white); border-color: var(--dos-navy); }
+.dos-pag-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(2px);
+}
+
+.modal-overlay.show { display: flex; }
+
+.dos-modal-box {
+  background: var(--dos-white);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  animation: modalIn .2s ease;
+}
+
+@keyframes modalIn {
+  from { opacity:0; transform:translateY(12px) scale(.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.dos-modal-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--dos-border);
+}
+
+.dos-modal-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--dos-navy);
+  color: var(--dos-white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.dos-modal-title { font-size: 15px; font-weight: 700; color: var(--dos-text); margin: 0; }
+.dos-modal-sub   { font-size: 12px; color: var(--dos-muted); margin: 2px 0 0; }
+
+.dos-modal-close {
+  margin-left: auto;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--dos-border);
+  background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--dos-muted);
+  font-size: 14px;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+
+.dos-modal-close:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
+.dos-modal-body { padding: 20px 24px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dos-text);
+}
+
+.form-label .req { color: var(--dos-orange); }
+
+.form-input, .form-select, .form-textarea {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--dos-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--dos-text);
+  background: var(--dos-white);
+  transition: border-color .15s, box-shadow .15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  height: auto;
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 72px;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--dos-navy);
+  box-shadow: 0 0 0 3px rgba(30,58,95,.08);
+}
+
+.dos-modal-foot {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--dos-border);
+}
+
+/* ── MODAL DÉTAIL ── */
+.dos-detail-box {
+  background: var(--dos-white);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  animation: modalIn .2s ease;
+}
+
+.dos-detail-hero {
+  background: var(--dos-navy);
+  border-radius: 16px 16px 0 0;
+  padding: 24px;
+  color: var(--dos-white);
+}
+
+.ddh-numero {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  letter-spacing: .1em;
+  opacity: .7;
+  margin: 0 0 4px;
+}
+
+.ddh-client {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.ddh-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  opacity: .85;
+}
+
+.ddh-route i { color: var(--dos-orange); }
+
+.dos-detail-body { padding: 20px 24px; }
+
+.ddb-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dos-muted);
+  margin: 0 0 10px;
+}
+
+.ddb-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.ddb-field { display: flex; flex-direction: column; gap: 3px; }
+
+.ddb-field-lbl {
+  font-size: 11px;
+  color: var(--dos-muted);
+  font-weight: 500;
+}
+
+.ddb-field-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dos-text);
+}
+
+.dos-detail-foot {
+  display: flex;
+  gap: 8px;
+  padding: 14px 24px 20px;
+  border-top: 1px solid var(--dos-border);
+}
+
+/* ── CONFIRM ── */
+.dos-confirm-box {
+  background: var(--dos-white);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 28px 24px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  animation: modalIn .2s ease;
+}
+
+.dos-confirm-icon {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: #FFF7ED;
+  color: var(--dos-orange);
+  font-size: 22px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.dos-confirm-title { font-size: 16px; font-weight: 700; margin: 0 0 6px; }
+.dos-confirm-msg   { font-size: 13px; color: var(--dos-muted); margin: 0 0 20px; }
+.dos-confirm-actions { display: flex; gap: 10px; }
+
+/* ── EMPTY STATE ── */
+.dos-empty {
+  text-align: center;
+  padding: 52px 20px;
+  color: var(--dos-muted);
+}
+
+.dos-empty i {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 12px;
+  color: var(--dos-border);
+}
+
+.dos-empty p { font-size: 14px; margin: 0 0 16px; }
+
+/* ── STATUT TIMELINE DANS DÉTAIL ── */
+.dos-timeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.dt-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+.dt-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--dos-border);
+  z-index: 0;
+}
+
+.dt-step.done:not(:last-child)::after { background: var(--dos-navy); }
+
+.dt-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--dos-border);
+  background: var(--dos-white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  color: var(--dos-muted);
+  position: relative;
+  z-index: 1;
+  transition: all .2s;
+}
+
+.dt-step.done .dt-dot {
+  background: var(--dos-navy);
+  border-color: var(--dos-navy);
+  color: var(--dos-white);
+}
+
+.dt-step.current .dt-dot {
+  background: var(--dos-orange);
+  border-color: var(--dos-orange);
+  color: var(--dos-white);
+  box-shadow: 0 0 0 4px rgba(249,115,22,.18);
+}
+
+.dt-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--dos-muted);
+  text-align: center;
+}
+
+.dt-step.done .dt-lbl, .dt-step.current .dt-lbl {
+  color: var(--dos-text);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .dos-stats-row { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .dos-stats-row { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .ddb-fields { grid-template-columns: 1fr; }
+}
+
+/* ── DARK MODE ── */
+[data-theme="dark"] {
+  --dos-white  : #1c1c1e;
+  --dos-gray   : #2c2c2e;
+  --dos-border : #3a3a3c;
+  --dos-text   : #f5f5f7;
+  --dos-muted  : #8e8e93;
+}
+
+[data-theme="dark"] .dos-stat-card,
+[data-theme="dark"] .dos-table-card,
+[data-theme="dark"] .dos-modal-box,
+[data-theme="dark"] .dos-detail-box,
+[data-theme="dark"] .dos-confirm-box { background: #1c1c1e; border-color: #3a3a3c; }
+
+[data-theme="dark"] .dos-table thead th { background: #2c2c2e; color: #8e8e93; }
+[data-theme="dark"] .dos-table tbody tr:hover { background: #2c2c2e; }
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .form-textarea { background: #2c2c2e; border-color: #3a3a3c; color: #f5f5f7; }
+[data-theme="dark"] .filter-select { background: #2c2c2e; border-color: #3a3a3c; color: #f5f5f7; }
+[data-theme="dark"] .btn { background: #2c2c2e; border-color: #3a3a3c; color: #f5f5f7; }
+[data-theme="dark"] .btn:hover { background: #3a3a3c; }
+[data-theme="dark"] .btn.primary { background: var(--dos-navy); color: #fff; border-color: var(--dos-navy); }
+[data-theme="dark"] .dos-toolbar .search-box { background: #2c2c2e; border-color: #3a3a3c; }
+[data-theme="dark"] .dt-dot { background: #2c2c2e; border-color: #3a3a3c; }

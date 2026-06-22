@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Chauffeurs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/chauffeurs.css"/>
+</head>
+<body>
+
+  <div class="mob-overlay" id="mob-overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span><span class="nav-badge">42</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item active" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span><span class="nav-pip"></span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span><span class="nav-badge">8</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot"><div class="foot-user"><div class="foot-avatar">AD</div>
+      <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+    </div></div>
+  </aside>
+<div class="layout">
+
+  <div class="topbar">
+    <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+    <div class="topbar-title">
+      <p class="topbar-page">Chauffeurs</p>
+      <nav class="topbar-bc"><span class="bc-seg">TransitFlow</span><span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span><span class="bc-seg bc-cur">Profils chauffeurs</span></nav>
+    </div>
+    <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+    <div class="tb-icons">
+      <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Mode sombre"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+      <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+    </div>
+    <div class="tb-div"></div>
+    <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+  </div>
+  <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+  <aside class="notif-panel" id="notifPanel">
+    <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">4</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+    <div class="notif-list">
+      <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-box"></i></div><div class="ni-body"><p class="ni-title">Colis TF-0198 livré</p><p class="ni-sub">il y a 12 min</p></div></div>
+      <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-truck"></i></div><div class="ni-body"><p class="ni-title">Véhicule LT-4821 en route</p><p class="ni-sub">il y a 1h</p></div></div>
+      <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-user-plus"></i></div><div class="ni-body"><p class="ni-title">Nouveau client enregistré</p><p class="ni-sub">il y a 2h</p></div></div>
+    </div>
+    <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+  </aside>
+  <nav class="mob-bottom-nav"><a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a><a class="mbn-item" href="colis.html"><i class="fa-solid fa-boxes-stacked"></i><span class="mbn-lbl">Colis</span></a><a class="mbn-item" href="clients.html"><i class="fa-solid fa-users"></i><span class="mbn-lbl">Clients</span></a><a class="mbn-item" href="documents.html"><i class="fa-solid fa-file-contract"></i><span class="mbn-lbl">Docs</span></a><a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a></nav>
+<main class="content" id="content">
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-id-card"></i></div>
+        <p class="stat-lbl">Total chauffeurs</p><p class="stat-num" id="ch-stat-total">0</p><p class="stat-foot">Effectif complet</p></div>
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-truck"></i></div>
+        <p class="stat-lbl">En mission</p><p class="stat-num" id="ch-stat-mission">0</p><p class="stat-foot">Actuellement en route</p></div>
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-circle-check"></i></div>
+        <p class="stat-lbl">Disponibles</p><p class="stat-num" id="ch-stat-dispo">0</p><p class="stat-foot">Prêts à partir</p></div>
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p class="stat-lbl">En congé</p><p class="stat-num" id="ch-stat-conge">0</p><p class="stat-foot">Repos / arrêt</p></div>
+    </div>
+    <div class="ch-toolbar">
+      <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="ch-search" type="text" placeholder="Nom, téléphone…"/></div>
+      <select class="filter-select" id="ch-filter">
+        <option value="all">Tous les statuts</option>
+        <option value="disponible">Disponibles</option>
+        <option value="en_mission">En mission</option>
+        <option value="conge">En congé</option>
+      </select>
+      <div style="margin-left:auto"><button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouveau chauffeur</button></div>
+    </div>
+    <div class="drv-grid" id="drv-grid"></div>
+    <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+      <div class="modal-box">
+        <div class="modal-head"><div><p class="modal-title" id="modal-title">Nouveau chauffeur</p><p class="modal-sub" id="modal-sub">Profil</p></div><button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button></div>
+        <form class="modal-body" id="ch-form">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Prénom *</label><input class="form-input" id="f-prenom" type="text" placeholder="Prénom"/></div>
+            <div class="form-group"><label class="form-label">Nom *</label><input class="form-input" id="f-nom" type="text" placeholder="Nom de famille"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Téléphone</label><input class="form-input" id="f-tel" type="tel" placeholder="+237 6XX XXX XXX"/></div>
+            <div class="form-group"><label class="form-label">Catégorie permis</label><input class="form-input" id="f-permis" type="text" placeholder="B+C, C+E…"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Années d'expérience</label><input class="form-input" id="f-exp" type="number" min="0" placeholder="0"/></div>
+            <div class="form-group"><label class="form-label">Statut</label><select class="form-select" id="f-status"><option value="disponible">Disponible</option><option value="en_mission">En mission</option><option value="conge">En congé</option></select></div>
+          </div>
+          <div class="form-group"><label class="form-label">Véhicule assigné</label><select class="form-select" id="f-vehicule"><option value="">Non assigné</option></select></div>
+          <div class="modal-foot"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button type="submit" class="btn primary"><i class="fa-solid fa-check"></i>Enregistrer</button></div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-overlay" id="confirm-modal" onclick="if(event.target===this)closeConfirm()">
+      <div class="confirm-box"><div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><p class="confirm-title">Confirmer</p><p class="confirm-msg" id="confirm-msg"></p><div class="confirm-actions"><button class="btn" onclick="closeConfirm()">Annuler</button><button class="btn danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i>Supprimer</button></div></div>
+    </div>
+
+<div style="height:24px"></div>
+</main>
+</div>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/base.js"></script>
+<script src="assets/js/chauffeurs.js"></script>
+</body>
+</html>

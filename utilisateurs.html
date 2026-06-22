@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Utilisateurs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <style>
+    /* ── Styles spécifiques utilisateurs ── */
+    .usr-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+    .usr-stat  { background:#fff; border:1px solid #e4e4e1; border-radius:12px; padding:16px 18px;
+                 display:flex; align-items:center; gap:14px; transition:all .2s; }
+    .usr-stat:hover { box-shadow:0 4px 14px rgba(30,58,95,.10); transform:translateY(-1px); }
+    .usr-stat-ico { width:40px; height:40px; border-radius:10px; display:flex; align-items:center;
+                    justify-content:center; font-size:17px; flex-shrink:0; }
+    .usr-stat-lbl { font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:#9e9e9a; margin:0 0 2px; }
+    .usr-stat-num { font-size:24px; font-weight:700; color:#0a0a0a; margin:0; }
+
+    .usr-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+    .usr-card {
+      background:#fff; border:1px solid #e4e4e1; border-radius:14px;
+      overflow:hidden; transition:all .2s;
+    }
+    .usr-card:hover { box-shadow:0 6px 20px rgba(30,58,95,.10); transform:translateY(-2px); }
+
+    .usr-card-top {
+      padding:20px; display:flex; align-items:center; gap:14px;
+      border-bottom:1px solid #f2f2f0; position:relative;
+    }
+    .usr-card-top::before {
+      content:''; position:absolute; left:0; top:0; bottom:0;
+      width:4px; border-radius:14px 0 0 0;
+    }
+    .usr-card.admin      .usr-card-top::before { background:#1E3A5F; }
+    .usr-card.transitaire .usr-card-top::before { background:#F97316; }
+    .usr-card.comptable  .usr-card-top::before { background:#2563EB; }
+    .usr-card.directeur  .usr-card-top::before { background:#15803D; }
+
+    .usr-av {
+      width:46px; height:46px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:700; color:#fff; flex-shrink:0;
+    }
+    .usr-av.admin       { background:#1E3A5F; }
+    .usr-av.transitaire { background:#F97316; }
+    .usr-av.comptable   { background:#2563EB; }
+    .usr-av.directeur   { background:#15803D; }
+
+    .usr-name  { font-size:14px; font-weight:700; color:#0a0a0a; margin:0; }
+    .usr-email { font-size:11.5px; color:#9e9e9a; margin:2px 0 0; }
+
+    .usr-role-badge {
+      margin-left:auto; display:inline-flex; align-items:center; gap:5px;
+      padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700;
+    }
+    .usr-role-badge.admin       { background:#EFF6FF; color:#1E3A5F; }
+    .usr-role-badge.transitaire { background:#FFF7ED; color:#C2410C; }
+    .usr-role-badge.comptable   { background:#EFF6FF; color:#1D4ED8; }
+    .usr-role-badge.directeur   { background:#F0FDF4; color:#15803D; }
+
+    .usr-card-body { padding:14px 20px; }
+    .usr-info-row  { display:flex; align-items:center; gap:8px; font-size:12px; color:#6e6e6a; margin-bottom:7px; }
+    .usr-info-row:last-child { margin-bottom:0; }
+    .usr-info-row i { width:14px; text-align:center; color:#c8c8c4; font-size:11px; }
+
+    .usr-card-foot {
+      padding:12px 20px; border-top:1px solid #f2f2f0;
+      display:flex; align-items:center; justify-content:space-between;
+      background:#fafaf8;
+    }
+    .usr-actif-badge {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:11px; font-weight:600; padding:3px 8px; border-radius:20px;
+    }
+    .usr-actif-badge.actif   { background:#F0FDF4; color:#15803D; }
+    .usr-actif-badge.inactif { background:#FEF2F2; color:#DC2626; }
+    .usr-actions { display:flex; gap:6px; }
+
+    /* Accès pages */
+    .usr-pages { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+    .usr-page-pill {
+      font-size:10px; padding:2px 7px; border-radius:6px;
+      background:#f2f2f0; color:#6e6e6a; border:1px solid #e4e4e1;
+    }
+
+    /* Toolbar */
+    .usr-toolbar { display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+    .usr-toolbar .search-box {
+      display:flex; align-items:center; gap:8px;
+      background:#fff; border:1px solid #e4e4e1; border-radius:8px;
+      padding:0 12px; height:38px; min-width:220px;
+    }
+    .usr-toolbar .search-box input { border:none; outline:none; background:transparent; font-size:13px; width:100%; }
+
+    /* Modal */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45);
+                     z-index:1000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(2px); }
+    .modal-overlay.show { display:flex; }
+    .usr-modal-box {
+      background:#fff; border-radius:16px; width:100%; max-width:500px;
+      box-shadow:0 20px 60px rgba(0,0,0,.18); animation:modalIn .2s ease;
+    }
+    @keyframes modalIn { from{opacity:0;transform:translateY(10px) scale(.97)} to{opacity:1;transform:none} }
+    .usr-modal-head {
+      display:flex; align-items:center; gap:12px;
+      padding:20px 24px 16px; border-bottom:1px solid #e4e4e1;
+    }
+    .usr-modal-ico { width:40px; height:40px; border-radius:10px; background:#1E3A5F; color:#fff;
+                     display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+    .usr-modal-title { font-size:15px; font-weight:700; color:#0a0a0a; margin:0; }
+    .usr-modal-sub   { font-size:12px; color:#9e9e9a; margin:2px 0 0; }
+    .usr-modal-close { margin-left:auto; width:32px; height:32px; border-radius:8px;
+                       border:1px solid #e4e4e1; background:transparent; cursor:pointer;
+                       display:flex; align-items:center; justify-content:center; color:#9e9e9a; }
+    .usr-modal-close:hover { background:#fee2e2; color:#dc2626; }
+    .usr-modal-body  { padding:20px 24px; }
+    .form-row   { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+    .form-group { display:flex; flex-direction:column; gap:5px; }
+    .form-label { font-size:12px; font-weight:600; color:#0a0a0a; }
+    .form-label .req { color:#F97316; }
+    .form-input, .form-select {
+      height:38px; padding:0 12px; border:1px solid #e4e4e1; border-radius:8px;
+      font-size:13px; color:#0a0a0a; background:#fff; width:100%; box-sizing:border-box;
+    }
+    .form-input:focus, .form-select:focus { outline:none; border-color:#1E3A5F; box-shadow:0 0 0 3px rgba(30,58,95,.08); }
+    .usr-modal-foot { display:flex; gap:10px; justify-content:flex-end; padding:16px 24px 20px; border-top:1px solid #e4e4e1; }
+
+    /* Accès preview */
+    .role-pages-preview {
+      background:#f3f4f6; border-radius:10px; padding:12px 14px; margin-top:14px;
+    }
+    .rpp-lbl { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#9e9e9a; margin:0 0 8px; }
+    .rpp-pages { display:flex; flex-wrap:wrap; gap:6px; }
+    .rpp-page { font-size:11px; padding:3px 8px; border-radius:6px; background:#fff; border:1px solid #e4e4e1; color:#374151; }
+
+    /* Password box */
+    .pwd-generate {
+      display:flex; gap:8px; align-items:center;
+    }
+    .pwd-generate input { flex:1; }
+    .pwd-hint { font-size:11px; color:#9e9e9a; margin-top:4px; }
+
+    /* Confirm */
+    .usr-confirm-box {
+      background:#fff; border-radius:16px; width:100%; max-width:380px;
+      padding:32px 28px 24px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.18);
+    }
+    .usr-confirm-icon { width:52px; height:52px; border-radius:50%; background:#FFF7ED;
+                        color:#F97316; font-size:22px; display:flex; align-items:center;
+                        justify-content:center; margin:0 auto 14px; }
+    .usr-confirm-title { font-size:16px; font-weight:700; margin:0 0 6px; }
+    .usr-confirm-msg   { font-size:13px; color:#9e9e9a; margin:0 0 20px; }
+    .usr-confirm-actions { display:flex; gap:10px; }
+
+    /* Dark mode */
+    [data-theme="dark"] .usr-stat,
+    [data-theme="dark"] .usr-card,
+    [data-theme="dark"] .usr-modal-box,
+    [data-theme="dark"] .usr-confirm-box { background:#1a1a1a; border-color:#2e2e2e; }
+    [data-theme="dark"] .usr-card-foot   { background:#141414; }
+    [data-theme="dark"] .usr-name        { color:#f0f0f0; }
+    [data-theme="dark"] .usr-stat-num    { color:#f0f0f0; }
+    [data-theme="dark"] .role-pages-preview { background:#222222; }
+    [data-theme="dark"] .form-input, [data-theme="dark"] .form-select { background:#222222; border-color:#2e2e2e; color:#f0f0f0; }
+    @media(max-width:768px) {
+      .usr-stats { grid-template-columns:1fr 1fr; }
+      .usr-grid  { grid-template-columns:1fr; }
+      .form-row  { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mob-overlay" id="mob-overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span></a>
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+      <p class="nav-group-lbl">Administration</p>
+      <a class="nav-item active" href="utilisateurs.html"><span class="nav-ico"><i class="fa-solid fa-users-gear"></i></span><span class="nav-txt">Utilisateurs</span><span class="nav-pip"></span></a>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot"><div class="foot-user"><div class="foot-avatar">AD</div>
+      <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+    </div></div>
+  </aside>
+
+  <div class="layout">
+    <div class="topbar">
+      <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <p class="topbar-page">Utilisateurs</p>
+        <nav class="topbar-bc"><span class="bc-seg">TransitFlow</span><span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span><span class="bc-seg bc-cur">Gestion des accès</span></nav>
+      </div>
+      <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+      <div class="tb-icons">
+        <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+        <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+    </div>
+    <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+
+    <aside class="notif-panel" id="notifPanel">
+      <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">0</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+      <div class="notif-list"></div>
+    </aside>
+
+    <main class="content" id="content">
+
+      <!-- STATS -->
+      <div class="usr-stats">
+        <div class="usr-stat">
+          <div class="usr-stat-ico" style="background:#EFF6FF;color:#1E3A5F"><i class="fa-solid fa-users"></i></div>
+          <div><p class="usr-stat-lbl">Total utilisateurs</p><p class="usr-stat-num" id="stat-total">0</p></div>
+        </div>
+        <div class="usr-stat">
+          <div class="usr-stat-ico" style="background:#F0FDF4;color:#15803D"><i class="fa-solid fa-circle-check"></i></div>
+          <div><p class="usr-stat-lbl">Actifs</p><p class="usr-stat-num" id="stat-actifs">0</p></div>
+        </div>
+        <div class="usr-stat">
+          <div class="usr-stat-ico" style="background:#FEF2F2;color:#DC2626"><i class="fa-solid fa-circle-xmark"></i></div>
+          <div><p class="usr-stat-lbl">Inactifs</p><p class="usr-stat-num" id="stat-inactifs">0</p></div>
+        </div>
+        <div class="usr-stat">
+          <div class="usr-stat-ico" style="background:#FFF7ED;color:#F97316"><i class="fa-solid fa-users-gear"></i></div>
+          <div><p class="usr-stat-lbl">Rôles distincts</p><p class="usr-stat-num" id="stat-roles">0</p></div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="usr-toolbar">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#9e9e9a;font-size:13px"></i>
+          <input id="usr-search" type="text" placeholder="Nom, email, rôle…"/>
+        </div>
+        <select class="filter-select" id="usr-filter-role" style="height:38px;padding:0 12px;border:1px solid #e4e4e1;border-radius:8px;background:#fff;font-size:13px">
+          <option value="all">Tous les rôles</option>
+          <option value="admin">Administrateur</option>
+          <option value="transitaire">Transitaire</option>
+          <option value="comptable">Comptable</option>
+          <option value="directeur">Directeur</option>
+        </select>
+        <div style="margin-left:auto">
+          <button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouvel utilisateur</button>
+        </div>
+      </div>
+
+      <!-- GRILLE -->
+      <div class="usr-grid" id="usr-grid"></div>
+
+      <!-- MODAL CRÉATION / ÉDITION -->
+      <div class="modal-overlay" id="modal-form" onclick="if(event.target===this)closeModal()">
+        <div class="usr-modal-box">
+          <div class="usr-modal-head">
+            <div class="usr-modal-ico"><i class="fa-solid fa-user-plus"></i></div>
+            <div>
+              <p class="usr-modal-title" id="modal-title">Nouvel utilisateur</p>
+              <p class="usr-modal-sub"   id="modal-sub">Créer un accès à TransitFlow</p>
+            </div>
+            <button class="usr-modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="usr-modal-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Prénom <span class="req">*</span></label>
+                <input class="form-input" id="f-prenom" type="text" placeholder="Prénom"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nom <span class="req">*</span></label>
+                <input class="form-input" id="f-nom" type="text" placeholder="Nom de famille"/>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:14px">
+              <label class="form-label">Email <span class="req">*</span></label>
+              <input class="form-input" id="f-email" type="email" placeholder="utilisateur@transitflow.cm"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Rôle <span class="req">*</span></label>
+                <select class="form-select" id="f-role" onchange="updateRolePreview()">
+                  <option value="transitaire">Transitaire</option>
+                  <option value="comptable">Comptable</option>
+                  <option value="directeur">Directeur</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mot de passe <span class="req">*</span></label>
+                <div class="pwd-generate">
+                  <input class="form-input" id="f-password" type="text" placeholder="Mot de passe"/>
+                  <button type="button" class="btn sm" onclick="generatePwd()" title="Générer">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  </button>
+                </div>
+                <p class="pwd-hint">Min. 6 caractères</p>
+              </div>
+            </div>
+
+            <!-- Aperçu des accès selon le rôle -->
+            <div class="role-pages-preview" id="role-preview">
+              <p class="rpp-lbl"><i class="fa-solid fa-lock-open" style="margin-right:4px"></i>Pages accessibles</p>
+              <div class="rpp-pages" id="rpp-pages"></div>
+            </div>
+          </div>
+          <div class="usr-modal-foot">
+            <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+            <button type="button" class="btn primary" onclick="saveModal()"><i class="fa-solid fa-check"></i>Créer l'accès</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL CONFIRMATION -->
+      <div class="modal-overlay" id="modal-confirm" onclick="if(event.target===this)closeConfirm()">
+        <div class="usr-confirm-box">
+          <div class="usr-confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <p class="usr-confirm-title" id="confirm-title">Confirmer</p>
+          <p class="usr-confirm-msg"   id="confirm-msg"></p>
+          <div class="usr-confirm-actions">
+            <button class="btn" style="flex:1" onclick="closeConfirm()">Annuler</button>
+            <button class="btn danger" style="flex:1" id="confirm-ok-btn" onclick="confirmAction()"><i class="fa-solid fa-check"></i>Confirmer</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:24px"></div>
+    </main>
+  </div>
+
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/base.js"></script>
+  <script src="assets/js/search.js"></script>
+  <script src="assets/js/utilisateurs.js"></script>
+</body>
+</html>

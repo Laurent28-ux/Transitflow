@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Clients</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/clients.css"/>
+</head>
+<body>
+
+  <div class="mob-overlay" id="mob-overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span><span class="nav-badge">42</span></a>
+      <a class="nav-item active" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span><span class="nav-pip"></span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span><span class="nav-badge">8</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Administration</p>
+      <a class="nav-item" href="utilisateurs.html" id="nav-utilisateurs"><span class="nav-ico"><i class="fa-solid fa-users-gear"></i></span><span class="nav-txt">Utilisateurs</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot"><div class="foot-user"><div class="foot-avatar">AD</div>
+      <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+    </div></div>
+  </aside>
+<div class="layout">
+
+  <div class="topbar">
+    <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+    <div class="topbar-title">
+      <p class="topbar-page">Clients</p>
+      <nav class="topbar-bc"><span class="bc-seg">TransitFlow</span><span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span><span class="bc-seg bc-cur">Base clients</span></nav>
+    </div>
+    <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+    <div class="tb-icons">
+      <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Mode sombre"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+      <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+    </div>
+    <div class="tb-div"></div>
+    <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+  </div>
+  <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+  <aside class="notif-panel" id="notifPanel">
+    <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">4</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+    <div class="notif-list">
+      <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-box"></i></div><div class="ni-body"><p class="ni-title">Colis TF-0198 livré</p><p class="ni-sub">il y a 12 min</p></div></div>
+      <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-truck"></i></div><div class="ni-body"><p class="ni-title">Véhicule LT-4821 en route</p><p class="ni-sub">il y a 1h</p></div></div>
+      <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-user-plus"></i></div><div class="ni-body"><p class="ni-title">Nouveau client enregistré</p><p class="ni-sub">il y a 2h</p></div></div>
+    </div>
+    <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+  </aside>
+  <nav class="mob-bottom-nav"><a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a><a class="mbn-item" href="colis.html"><i class="fa-solid fa-boxes-stacked"></i><span class="mbn-lbl">Colis</span></a><a class="mbn-item active" href="clients.html"><i class="fa-solid fa-users"></i><span class="mbn-lbl">Clients</span></a><a class="mbn-item" href="documents.html"><i class="fa-solid fa-file-contract"></i><span class="mbn-lbl">Docs</span></a><a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a></nav>
+<main class="content" id="content">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-users"></i></div>
+        <p class="stat-lbl">Total clients</p><p class="stat-num" id="cl-stat-total">0</p><p class="stat-foot">Base complète</p></div>
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-user-check"></i></div>
+        <p class="stat-lbl">Clients actifs</p><p class="stat-num" id="cl-stat-actifs">0</p><p class="stat-foot"><span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i>+3</span>&nbsp;ce mois</p></div>
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-user-xmark"></i></div>
+        <p class="stat-lbl">Inactifs</p><p class="stat-num" id="cl-stat-inactifs">0</p><p class="stat-foot">À relancer</p></div>
+      <div class="stat-card"><div class="stat-accent"></div><div class="stat-icon-wrap"><i class="fa-solid fa-box"></i></div>
+        <p class="stat-lbl">Colis moyen / client</p><p class="stat-num" id="cl-stat-avg">0</p><p class="stat-foot">Sur toute la période</p></div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="page-toolbar">
+      <div class="toolbar-left">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="client-search" type="text" placeholder="Nom, ville, email…"/></div>
+        <select class="filter-select" id="client-filter">
+          <option value="all">Tous les clients</option>
+          <option value="active">Actifs</option>
+          <option value="inactive">Inactifs</option>
+        </select>
+      </div>
+      <div class="toolbar-right">
+        <div class="view-toggle">
+          <button class="vt-btn active" id="vt-table" onclick="setView('table')" title="Vue tableau"><i class="fa-solid fa-list"></i></button>
+          <button class="vt-btn" id="vt-grid"  onclick="setView('grid')"  title="Vue grille"><i class="fa-solid fa-grip"></i></button>
+        </div>
+        <button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouveau client</button>
+      </div>
+    </div>
+
+    <!-- TABLE VIEW -->
+    <div id="table-view">
+      <div class="table-card">
+        <div class="table-card-head">
+          <div class="tch-icon"><i class="fa-solid fa-users"></i></div>
+          <div><p class="tch-title">Liste des clients</p><p class="tch-sub" id="tch-sub">Chargement…</p></div>
+          <div class="tch-action"><button class="btn sm primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Ajouter</button></div>
+        </div>
+        <div class="table-scroll">
+          <table class="clients-table">
+            <thead><tr><th>Client</th><th>Contact</th><th>Ville</th><th>Colis</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="clients-tbody"><tr><td colspan="6" style="text-align:center;padding:32px;color:#9e9e9a">Chargement…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination"><span class="pag-info" id="pag-info">—</span><div class="pag-btns" id="pag-btns"></div></div>
+      </div>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div class="clients-grid" id="grid-view" style="display:none"></div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+      <div class="modal-box">
+        <div class="modal-head">
+          <div><p class="modal-title" id="modal-title">Nouveau client</p><p class="modal-sub" id="modal-sub">Informations du client</p></div>
+          <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form class="modal-body" id="client-form">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Nom / Raison sociale <span class="req">*</span></label><input class="form-input" id="f-nom" type="text" placeholder="Ex: CAMPORT SARL"/></div>
+            <div class="form-group"><label class="form-label">Type</label><select class="form-select" id="f-type"><option>Entreprise</option><option>PME</option><option>Particulier</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Téléphone</label><input class="form-input" id="f-tel" type="tel" placeholder="+237 6XX XXX XXX"/></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="f-email" type="email" placeholder="email@example.com"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Ville <span class="req">*</span></label><input class="form-input" id="f-ville" type="text" placeholder="Douala, Yaoundé…"/></div>
+            <div class="form-group"><label class="form-label">Statut</label><select class="form-select" id="f-status"><option value="active">Actif</option><option value="inactive">Inactif</option></select></div>
+          </div>
+          <div class="modal-foot"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button type="submit" class="btn primary"><i class="fa-solid fa-check"></i>Enregistrer</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- CONFIRM DELETE -->
+    <div class="modal-overlay" id="confirm-modal" onclick="if(event.target===this)closeConfirm()">
+      <div class="confirm-box">
+        <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <p class="confirm-title">Confirmer la suppression</p>
+        <p class="confirm-msg" id="confirm-msg">Supprimer ce client ?</p>
+        <div class="confirm-actions"><button class="btn" onclick="closeConfirm()">Annuler</button><button class="btn danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i>Supprimer</button></div>
+      </div>
+    </div>
+
+<div style="height:24px"></div>
+</main>
+</div>
+<script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+<script src="assets/js/base.js"></script>
+<script src="assets/js/clients.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>

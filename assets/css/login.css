@@ -1,0 +1,236 @@
+/* ── TransitFlow · login.css (Connexion avec rôles) ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    background:
+        url("../img/img.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+body::after {
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+        repeating-linear-gradient(0deg,  transparent, transparent 59px, rgba(255,255,255,.025) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,.025) 60px);
+    pointer-events: none; z-index:0;
+}
+
+.overlay {
+    position: relative; z-index:1;
+    width: 100%; display: flex;
+    justify-content: center; align-items: center;
+    padding: 24px; min-height: 100vh;
+}
+
+/* ── CARD ── */
+.login-container {
+    width: 100%; max-width: 440px;
+    background: rgba(15,30,55,.82);
+    backdrop-filter: none;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 20px;
+    padding: 36px 34px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.35);
+    color: white;
+}
+
+/* ── LOGO ── */
+.logo { text-align: center; margin-bottom: 24px; }
+.logo-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: #F97316; color: #fff;
+    font-size: 22px; display: flex; align-items: center;
+    justify-content: center; margin: 0 auto 12px;
+    box-shadow: 0 6px 20px rgba(249,115,22,.4);
+}
+.logo h1 { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: -.5px; margin-bottom: 5px; }
+.logo p  { font-size: 12.5px; color: rgba(255,255,255,.55); }
+
+/* ── SÉLECTEUR DE RÔLE (combo box) ── */
+.role-selector { margin-bottom: 22px; }
+
+.role-combo-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600;
+    color: rgba(255,255,255,.7);
+    margin-bottom: 8px;
+}
+.role-combo-label i { color: #F97316; font-size: 11px; }
+
+.role-combo-wrap {
+    position: relative;
+}
+
+.role-combo {
+    width: 100%; height: 46px;
+    padding: 0 40px 0 14px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px; font-weight: 500;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+}
+.role-combo option {
+    background: #1E3A5F;
+    color: #fff;
+    font-size: 14px;
+}
+.role-combo:focus {
+    border-color: #F97316;
+    background: rgba(255,255,255,.15);
+    box-shadow: 0 0 0 3px rgba(249,115,22,.2);
+}
+
+.role-combo-arrow {
+    position: absolute; right: 14px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px; color: rgba(255,255,255,.5);
+    pointer-events: none;
+}
+
+/* ── FORMULAIRE ── */
+.input-group { margin-bottom: 16px; }
+.input-group label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: rgba(255,255,255,.7); margin-bottom: 7px;
+    display: flex; align-items: center; gap: 6px;
+}
+.input-group label i { color: #F97316; font-size: 11px; }
+
+.pwd-wrap { position: relative; }
+
+.input-group input {
+    width: 100%; height: 46px;
+    padding: 0 44px 0 14px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px; color: #fff; outline: none;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+}
+.input-group input::placeholder { color: rgba(255,255,255,.3); letter-spacing: .05em; }
+.input-group input:focus {
+    background: rgba(255,255,255,.15);
+    border-color: #F97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,.2);
+}
+
+.toggle-pwd {
+    position: absolute; right: 13px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,.4); font-size: 15px;
+    width: auto; height: auto; padding: 4px;
+    transition: color .15s;
+}
+.toggle-pwd:hover { color: #fff; transform: translateY(-50%); }
+
+/* ── BOUTON ── */
+.submit-btn {
+    width: 100%; height: 48px; border: none;
+    border-radius: 10px; background: #fff;
+    color: #1E3A5F;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all .2s;
+    display: flex; align-items: center;
+    justify-content: center; gap: 8px; margin-top: 6px;
+}
+.submit-btn:hover { background: #f0f4f8; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+.submit-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+.submit-btn i { font-size: 15px; }
+
+/* Spinner */
+.spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(30,58,95,.3);
+    border-top-color: #1E3A5F;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── MESSAGE ── */
+#message {
+    margin-top: 14px; text-align: center;
+    font-size: 13px; min-height: 20px;
+    color: rgba(255,255,255,.6);
+    line-height: 1.5;
+}
+#message.error   { color: #fca5a5; }
+#message.success { color: #86efac; }
+
+/* ── LIEN ── */
+.link {
+    margin-top: 20px; text-align: center;
+    font-size: 12.5px; color: rgba(255,255,255,.45);
+    line-height: 1.5;
+}
+.link strong { color: rgba(255,255,255,.7); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+    .overlay { padding: 16px; }
+    .login-container { padding: 28px 22px; }
+    .role-pills { grid-template-columns: 1fr 1fr; }
+    .logo h1 { font-size: 20px; }
+}
+
+
+/* ── TOGGLE MODE ADMIN ── */
+.role-selector {
+    transition: all .3s ease;
+    overflow: hidden;
+}
+.role-selector.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    pointer-events: none;
+}
+.role-selector.visible {
+    max-height: 120px;
+    opacity: 1;
+    margin-bottom: 22px;
+}
+
+/* Badge mode admin */
+.admin-mode-badge {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(30,58,95,.4);
+    border: 1px solid rgba(30,58,95,.6);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: rgba(255,255,255,.8);
+}
+.admin-mode-badge.show { display: flex; }
+.admin-mode-badge i    { color: #F97316; }
+.admin-mode-badge a    { color: rgba(255,255,255,.6); margin-left: auto; font-size: 11px; cursor: pointer; text-decoration: underline; }
+
+.link a {
+    color: rgba(255,255,255,.75);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color .15s;
+}
+.link a:hover { color: #F97316; }

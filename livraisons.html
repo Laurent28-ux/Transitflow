@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TransitFlow — Affectation des Livraisons</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/livraisons.css"/>
+</head>
+<body>
+
+  <div class="mob-overlay" id="mob-overlay"></div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label"><span class="brand-name">TransitFlow</span><span class="brand-sub">ERP Logistique</span></div>
+    </div>
+    <nav class="sb-nav">
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item active" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span><span class="nav-pip"></span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot">
+      <div class="foot-user">
+        <div class="foot-avatar">AD</div>
+        <div class="foot-info"><p class="foot-name">Administrateur</p><p class="foot-role">Transit Manager</p></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="layout">
+
+    <!-- ── TOPBAR ── -->
+    <div class="topbar">
+      <button class="mob-hamburger" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <p class="topbar-page">Affectation des Livraisons</p>
+        <nav class="topbar-bc">
+          <span class="bc-seg">TransitFlow</span>
+          <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+          <span class="bc-seg bc-cur">Missions chauffeurs &amp; véhicules</span>
+        </nav>
+      </div>
+      <div class="topbar-search"><i class="fa-solid fa-magnifying-glass s-ico"></i><input type="search" placeholder="Rechercher… (/)"/></div>
+      <div class="tb-icons">
+        <button class="icon-btn theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Mode sombre"><i class="fa-solid fa-moon"></i></button>
+        <button class="icon-btn" onclick="toggleNotif()"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+        <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-profile"><div class="prof-av">AD</div><span class="prof-name">Admin</span><i class="fa-solid fa-chevron-down prof-chev"></i></div>
+    </div>
+
+    <div class="step-bar"><div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div></div>
+
+    <!-- ── NOTIFICATIONS ── -->
+    <aside class="notif-panel" id="notifPanel">
+      <div class="notif-ph"><span class="notif-pt">Notifications</span><span class="notif-cnt">3</span><span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span></div>
+      <div class="notif-list">
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-truck-fast"></i></div><div class="ni-body"><p class="ni-title">Mission MIS-003 en cours</p><p class="ni-sub">il y a 20 min</p></div></div>
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-folder-open"></i></div><div class="ni-body"><p class="ni-title">Dossier TR-002 prêt à affecter</p><p class="ni-sub">il y a 1h</p></div></div>
+        <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-circle-check"></i></div><div class="ni-body"><p class="ni-title">Mission MIS-001 terminée</p><p class="ni-sub">il y a 3h</p></div></div>
+      </div>
+      <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+    </aside>
+
+    <!-- ── NAV MOBILE ── -->
+    <nav class="mob-bottom-nav">
+      <a class="mbn-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a>
+      <a class="mbn-item" href="dossiers.html"><i class="fa-solid fa-folder-open"></i><span class="mbn-lbl">Dossiers</span></a>
+      <a class="mbn-item active" href="livraisons.html"><i class="fa-solid fa-truck-fast"></i><span class="mbn-lbl">Missions</span></a>
+      <a class="mbn-item" href="chauffeurs.html"><i class="fa-solid fa-id-card"></i><span class="mbn-lbl">Chauffeurs</span></a>
+      <a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a>
+    </nav>
+
+    <!-- ════════════════════════════════════
+         CONTENU PRINCIPAL
+    ════════════════════════════════════ -->
+    <main class="content" id="content">
+
+      <!-- STATS -->
+      <div class="liv-stats-row">
+        <div class="liv-stat-card">
+          <div class="liv-stat-ico"><i class="fa-solid fa-list-check"></i></div>
+          <div class="liv-stat-body">
+            <p class="liv-stat-lbl">Total missions</p>
+            <p class="liv-stat-num" id="ls-total">0</p>
+            <p class="liv-stat-foot">Toutes périodes</p>
+          </div>
+        </div>
+        <div class="liv-stat-card">
+          <div class="liv-stat-ico"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="liv-stat-body">
+            <p class="liv-stat-lbl">En cours</p>
+            <p class="liv-stat-num" id="ls-encours">0</p>
+            <p class="liv-stat-foot">Actuellement en route</p>
+          </div>
+        </div>
+        <div class="liv-stat-card">
+          <div class="liv-stat-ico"><i class="fa-solid fa-calendar-check"></i></div>
+          <div class="liv-stat-body">
+            <p class="liv-stat-lbl">Planifiées</p>
+            <p class="liv-stat-num" id="ls-planif">0</p>
+            <p class="liv-stat-foot">À venir</p>
+          </div>
+        </div>
+        <div class="liv-stat-card">
+          <div class="liv-stat-ico" style="color:var(--liv-orange)"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="liv-stat-body">
+            <p class="liv-stat-lbl">Terminées</p>
+            <p class="liv-stat-num" id="ls-terminees">0</p>
+            <p class="liv-stat-foot">Ce mois</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="liv-toolbar">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="liv-search" type="text" placeholder="N° mission, dossier, chauffeur…"/>
+        </div>
+        <select class="filter-sel" id="liv-filter-statut">
+          <option value="all">Tous les statuts</option>
+          <option value="planifie">Planifiée</option>
+          <option value="en_cours">En cours</option>
+          <option value="termine">Terminée</option>
+          <option value="annule">Annulée</option>
+        </select>
+        <select class="filter-sel" id="liv-filter-chauffeur">
+          <option value="all">Tous les chauffeurs</option>
+        </select>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+          <!-- Toggle vue grille / table -->
+          <div class="view-toggle">
+            <button class="vt-btn active" id="vt-grid-btn"  onclick="setView('grid')"  title="Vue cartes"><i class="fa-solid fa-grip"></i></button>
+            <button class="vt-btn"        id="vt-table-btn" onclick="setView('table')" title="Vue tableau"><i class="fa-solid fa-list"></i></button>
+          </div>
+          <button class="btn" onclick="exportMissions()"><i class="fa-solid fa-file-arrow-down"></i>Exporter</button>
+          <button class="btn primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouvelle mission</button>
+        </div>
+      </div>
+
+      <!-- VUE GRILLE (cartes) -->
+      <div id="view-grid">
+        <div class="liv-missions-grid" id="liv-grid"></div>
+      </div>
+
+      <!-- VUE TABLE -->
+      <div id="view-table" style="display:none">
+        <div class="liv-table-card">
+          <div class="liv-table-head">
+            <div class="lth-icon"><i class="fa-solid fa-truck-fast"></i></div>
+            <div>
+              <p class="lth-title">Liste des missions</p>
+              <p class="lth-sub" id="lth-sub">Chargement…</p>
+            </div>
+            <div class="lth-action">
+              <button class="btn sm primary" onclick="openModal()"><i class="fa-solid fa-plus"></i>Nouvelle</button>
+            </div>
+          </div>
+          <div class="liv-table-scroll">
+            <table class="liv-table">
+              <thead>
+                <tr>
+                  <th>N° Mission</th>
+                  <th>Dossier</th>
+                  <th>Chauffeur</th>
+                  <th>Véhicule</th>
+                  <th>Date prévue</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="liv-tbody">
+                <tr><td colspan="7" style="text-align:center;padding:40px;color:#9e9e9a">
+                  <i class="fa-solid fa-spinner fa-spin" style="font-size:24px;display:block;margin-bottom:8px"></i>Chargement…
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="liv-pagination">
+            <span id="liv-pag-info">—</span>
+            <div class="liv-pag-btns" id="liv-pag-btns"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CRÉATION / ÉDITION ════ -->
+      <div class="modal-overlay" id="modal-form" onclick="if(event.target===this)closeModal()">
+        <div class="liv-modal-box">
+          <div class="liv-modal-head">
+            <div class="liv-modal-ico"><i class="fa-solid fa-truck-fast"></i></div>
+            <div>
+              <p class="liv-modal-title" id="modal-title">Nouvelle mission</p>
+              <p class="liv-modal-sub"   id="modal-sub">Affecter un dossier à un chauffeur et un véhicule</p>
+            </div>
+            <button class="liv-modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <div class="liv-modal-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Dossier de transit <span class="req">*</span></label>
+                <select class="form-select" id="f-dossier" onchange="onDossierChange()">
+                  <option value="">— Sélectionner —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date prévue <span class="req">*</span></label>
+                <input class="form-input" id="f-date" type="date"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Chauffeur <span class="req">*</span></label>
+                <select class="form-select" id="f-chauffeur" onchange="onChauffeurChange()">
+                  <option value="">— Sélectionner —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Véhicule <span class="req">*</span></label>
+                <select class="form-select" id="f-vehicule" onchange="onVehiculeChange()">
+                  <option value="">— Sélectionner —</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Aperçu chauffeur + véhicule -->
+            <div class="preview-panel" id="preview-panel" style="display:none">
+              <div class="preview-box">
+                <p class="preview-box-title"><i class="fa-solid fa-id-card" style="margin-right:4px"></i>Chauffeur</p>
+                <div class="preview-box-body" id="preview-chauffeur">
+                  <span class="preview-empty">Non sélectionné</span>
+                </div>
+              </div>
+              <div class="preview-box">
+                <p class="preview-box-title"><i class="fa-solid fa-truck" style="margin-right:4px"></i>Véhicule</p>
+                <div class="preview-box-body" id="preview-vehicule">
+                  <span class="preview-empty">Non sélectionné</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row" style="margin-top:14px;margin-bottom:0">
+              <div class="form-group">
+                <label class="form-label">Statut</label>
+                <select class="form-select" id="f-statut">
+                  <option value="planifie">Planifiée</option>
+                  <option value="en_cours">En cours</option>
+                  <option value="termine">Terminée</option>
+                  <option value="annule">Annulée</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Notes (optionnel)</label>
+                <input class="form-input" id="f-notes" type="text" placeholder="Remarques…"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="liv-modal-foot">
+            <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+            <button type="button" class="btn primary" onclick="saveModal()"><i class="fa-solid fa-check"></i>Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL DÉTAIL MISSION ════ -->
+      <div class="modal-overlay" id="modal-detail" onclick="if(event.target===this)closeDetail()">
+        <div class="liv-detail-box">
+          <div class="liv-detail-hero">
+            <p class="ldh-num"   id="detail-num">MIS-000</p>
+            <p class="ldh-title" id="detail-title">Détail de la mission</p>
+            <div class="ldh-pills">
+              <span class="ldh-pill" id="detail-statut-pill"><i class="fa-solid fa-circle"></i>—</span>
+              <span class="ldh-pill"><i class="fa-solid fa-calendar"></i><span id="detail-date">—</span></span>
+            </div>
+          </div>
+          <div class="liv-detail-body">
+            <div class="ldb-row">
+              <div class="ldb-ico"><i class="fa-solid fa-folder-open"></i></div>
+              <div><p class="ldb-lbl">Dossier de transit</p><p class="ldb-val" id="detail-dossier">—</p></div>
+            </div>
+            <div class="ldb-row">
+              <div class="ldb-ico"><i class="fa-solid fa-id-card"></i></div>
+              <div><p class="ldb-lbl">Chauffeur affecté</p><p class="ldb-val" id="detail-chauffeur">—</p></div>
+            </div>
+            <div class="ldb-row">
+              <div class="ldb-ico"><i class="fa-solid fa-truck"></i></div>
+              <div><p class="ldb-lbl">Véhicule affecté</p><p class="ldb-val" id="detail-vehicule">—</p></div>
+            </div>
+            <div class="ldb-row">
+              <div class="ldb-ico"><i class="fa-solid fa-route"></i></div>
+              <div><p class="ldb-lbl">Itinéraire</p><p class="ldb-val" id="detail-route">—</p></div>
+            </div>
+            <div class="ldb-row">
+              <div class="ldb-ico"><i class="fa-solid fa-note-sticky"></i></div>
+              <div><p class="ldb-lbl">Notes</p><p class="ldb-val" id="detail-notes" style="font-weight:400;color:#6B7280">—</p></div>
+            </div>
+          </div>
+          <div class="liv-detail-foot">
+            <button class="btn" style="flex:1" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i>Fermer</button>
+            <button class="btn primary" style="flex:1" id="detail-edit-btn"><i class="fa-solid fa-pen"></i>Modifier</button>
+            <button class="btn danger" id="detail-del-btn"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MODAL CONFIRMATION ════ -->
+      <div class="modal-overlay" id="modal-confirm" onclick="if(event.target===this)closeConfirm()">
+        <div class="liv-confirm-box">
+          <div class="liv-confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <p class="liv-confirm-title">Confirmer la suppression</p>
+          <p class="liv-confirm-msg" id="confirm-msg">Supprimer cette mission ?</p>
+          <div class="liv-confirm-actions">
+            <button class="btn" style="flex:1" onclick="closeConfirm()">Annuler</button>
+            <button class="btn danger" style="flex:1" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i>Supprimer</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:24px"></div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/base.js"></script>
+  <script src="assets/js/livraisons.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>

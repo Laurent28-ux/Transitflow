@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="TransitFlow ERP — Dashboard"/>
+  <title>TransitFlow — Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/base.css"/>
+  <link rel="stylesheet" href="assets/css/search.css"/>
+  <link rel="stylesheet" href="assets/css/dark-mode.css"/>
+  <link rel="stylesheet" href="assets/css/dashboard.css"/>
+</head>
+<body>
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mob-overlay" id="mob-overlay"></div>
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()" aria-label="Réduire">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <div class="sb-brand">
+      <div class="brand-mark"><i class="fa-solid fa-route"></i></div>
+      <div class="brand-label">
+        <span class="brand-name">TransitFlow</span>
+        <span class="brand-sub">ERP Logistique</span>
+      </div>
+    </div>
+    <nav class="sb-nav" role="navigation">
+
+      <p class="nav-group-lbl">Principal</p>
+      <a class="nav-item active" href="dashboard.html"><span class="nav-ico"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-txt">Dashboard</span><span class="nav-pip"></span></a>
+      <a class="nav-item" href="colis.html"><span class="nav-ico"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-txt">Colis</span><span class="nav-badge">42</span></a>
+      <a class="nav-item" href="clients.html"><span class="nav-ico"><i class="fa-solid fa-users"></i></span><span class="nav-txt">Clients</span></a>
+
+      <p class="nav-group-lbl">Transit</p>
+      <a class="nav-item" href="dossiers.html"><span class="nav-ico"><i class="fa-solid fa-folder-open"></i></span><span class="nav-txt">Dossiers de Transit</span></a>
+      <a class="nav-item" href="livraisons.html"><span class="nav-ico"><i class="fa-solid fa-truck-fast"></i></span><span class="nav-txt">Affectation Livraisons</span></a>
+
+      <p class="nav-group-lbl">Finance</p>
+      <a class="nav-item" href="factures.html"><span class="nav-ico"><i class="fa-solid fa-file-invoice-dollar"></i></span><span class="nav-txt">Facturation</span></a>
+      <a class="nav-item" href="paiements.html"><span class="nav-ico"><i class="fa-solid fa-money-bill-wave"></i></span><span class="nav-txt">Paiements</span></a>
+
+      <p class="nav-group-lbl">Flotte</p>
+      <a class="nav-item" href="chauffeurs.html"><span class="nav-ico"><i class="fa-solid fa-id-card"></i></span><span class="nav-txt">Chauffeurs</span></a>
+      <a class="nav-item" href="vehicules.html"><span class="nav-ico"><i class="fa-solid fa-truck"></i></span><span class="nav-txt">Véhicules</span><span class="nav-badge">8</span></a>
+
+      <p class="nav-group-lbl">Gestion</p>
+      <a class="nav-item" href="documents.html"><span class="nav-ico"><i class="fa-solid fa-file-contract"></i></span><span class="nav-txt">Documents</span></a>
+      <a class="nav-item" href="rapports.html"><span class="nav-ico"><i class="fa-solid fa-chart-line"></i></span><span class="nav-txt">Rapports</span></a>
+
+      <p class="nav-group-lbl">Administration</p>
+      <a class="nav-item" href="utilisateurs.html" id="nav-utilisateurs"><span class="nav-ico"><i class="fa-solid fa-users-gear"></i></span><span class="nav-txt">Utilisateurs</span></a>
+
+      <p class="nav-group-lbl">Système</p>
+      <a class="nav-item" href="parametres.html"><span class="nav-ico"><i class="fa-solid fa-gear"></i></span><span class="nav-txt">Paramètres</span></a>
+    </nav>
+    <div class="sb-foot">
+      <div class="foot-user">
+        <div class="foot-avatar">AD</div>
+        <div class="foot-info">
+          <p class="foot-name">Administrateur</p>
+          <p class="foot-role">Transit Manager</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ LAYOUT ══ -->
+  <div class="layout">
+
+    <!-- ── TOPBAR ── -->
+    <div class="topbar" role="banner">
+      <button class="mob-hamburger" onclick="toggleMobileSidebar()" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="topbar-title">
+        <p class="topbar-page">Dashboard</p>
+        <nav class="topbar-bc">
+          <span class="bc-seg">TransitFlow</span>
+          <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+          <span class="bc-seg bc-cur">Vue d'ensemble</span>
+        </nav>
+      </div>
+      <div class="topbar-search" role="search">
+        <i class="fa-solid fa-magnifying-glass s-ico"></i>
+        <input type="search" placeholder="Rechercher… (appuyez /)" aria-label="Recherche"/>
+      </div>
+      <div class="tb-icons">
+        <button class="icon-btn" onclick="simulateLiveUpdate()" title="Simuler un nouveau colis" aria-label="Simuler">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        <button class="icon-btn" onclick="toggleNotif()" data-notif-btn aria-label="Notifications">
+          <i class="fa-regular fa-bell"></i>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="icon-btn" aria-label="Aide">
+          <i class="fa-regular fa-circle-question"></i>
+        </button>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-profile" role="button" tabindex="0">
+        <div class="prof-av">AD</div>
+        <span class="prof-name">Admin</span>
+        <i class="fa-solid fa-chevron-down prof-chev"></i>
+      </div>
+    </div>
+
+    <!-- Barre progression -->
+    <div class="step-bar">
+      <div class="step-bar-fill" id="step-bar-fill" style="width:0%"></div>
+    </div>
+
+    <!-- Notification Panel -->
+    <aside class="notif-panel" id="notifPanel">
+      <div class="notif-ph">
+        <span class="notif-pt">Notifications</span>
+        <span class="notif-cnt">4</span>
+        <span class="notif-pc" onclick="toggleNotif()"><i class="fa-solid fa-xmark"></i></span>
+      </div>
+      <div class="notif-list">
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-box"></i></div><div class="ni-body"><p class="ni-title">Colis TF-0198 livré</p><p class="ni-sub">il y a 12 min</p></div></div>
+        <div class="notif-item unread"><div class="ni-icon"><i class="fa-solid fa-truck"></i></div><div class="ni-body"><p class="ni-title">Véhicule LT-4821 en route</p><p class="ni-sub">il y a 1h</p></div></div>
+        <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-file-circle-exclamation"></i></div><div class="ni-body"><p class="ni-title">Document douanier manquant</p><p class="ni-sub">il y a 2h</p></div></div>
+        <div class="notif-item"><div class="ni-icon"><i class="fa-solid fa-user-plus"></i></div><div class="ni-body"><p class="ni-title">Nouveau client enregistré</p><p class="ni-sub">il y a 3h</p></div></div>
+      </div>
+      <div class="notif-footer"><a href="#">Voir toutes les notifications</a></div>
+    </aside>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mob-bottom-nav">
+      <a class="mbn-item active" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span class="mbn-lbl">Dashboard</span></a>
+      <a class="mbn-item" href="colis.html"><i class="fa-solid fa-boxes-stacked"></i><span class="mbn-lbl">Colis</span></a>
+      <a class="mbn-item" href="clients.html"><i class="fa-solid fa-users"></i><span class="mbn-lbl">Clients</span></a>
+      <a class="mbn-item" href="documents.html"><i class="fa-solid fa-file-contract"></i><span class="mbn-lbl">Docs</span></a>
+      <a class="mbn-item" href="parametres.html"><i class="fa-solid fa-gear"></i><span class="mbn-lbl">Params</span></a>
+    </nav>
+
+    <!-- ══ CONTENU PRINCIPAL ══ -->
+    <main class="content" id="content" role="main">
+
+      <!-- ── HERO BANNER ── -->
+      <div class="dash-hero">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-left">
+          <p class="hero-greeting"><i class="fa-solid fa-sun" style="margin-right:6px"></i>Tableau de bord</p>
+          <h1 class="hero-title">
+            Bienvenue, Administrateur
+            <span>Voici l'état de votre activité logistique</span>
+          </h1>
+          <div class="hero-meta">
+            <div class="hero-meta-item"><i class="fa-solid fa-boxes-stacked"></i><strong>1 284</strong>&nbsp;colis ce mois</div>
+            <div class="hero-meta-item"><i class="fa-solid fa-circle-check"></i><strong>96%</strong>&nbsp;taux de livraison</div>
+            <div class="hero-meta-item"><i class="fa-solid fa-truck"></i><strong>5/8</strong>&nbsp;véhicules actifs</div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-badge"><span class="live-dot"></span>Données en direct</div>
+          <p class="hero-clock" id="hero-clock">--:--:--</p>
+          <p class="hero-date" id="hero-date">Chargement...</p>
+        </div>
+      </div>
+
+      <!-- ── STAT CARDS ── -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-accent"></div>
+          <div class="stat-icon-wrap"><i class="fa-solid fa-boxes-stacked"></i></div>
+          <p class="stat-lbl">Colis totaux</p>
+          <p class="stat-num" id="stat-total">0</p>
+          <p class="stat-foot"><span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i>+12%</span>&nbsp;vs mois dernier</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-accent"></div>
+          <div class="stat-icon-wrap"><i class="fa-solid fa-truck"></i></div>
+          <p class="stat-lbl">En livraison</p>
+          <p class="stat-num" id="stat-transit">0</p>
+          <p class="stat-foot"><span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i>+3</span>&nbsp;aujourd'hui</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-accent"></div>
+          <div class="stat-icon-wrap"><i class="fa-solid fa-users"></i></div>
+          <p class="stat-lbl">Clients actifs</p>
+          <p class="stat-num" id="stat-clients">0</p>
+          <p class="stat-foot"><span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i>+8</span>&nbsp;ce mois</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-accent"></div>
+          <div class="stat-icon-wrap"><i class="fa-solid fa-money-bill-wave"></i></div>
+          <p class="stat-lbl">Revenus (FCFA)</p>
+          <p class="stat-num"><span id="stat-revenus">0</span></p>
+          <p class="stat-foot"><span class="trend down"><i class="fa-solid fa-arrow-trend-down"></i>-2%</span>&nbsp;vs mois dernier</p>
+        </div>
+      </div>
+
+      <!-- ── KPI MINI ROW ── -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="kpi-body">
+            <p class="kpi-val"><span id="kpi-taux">0%</span></p>
+            <p class="kpi-lbl">Taux de livraison</p>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="kpi-body">
+            <p class="kpi-val"><span id="kpi-delai">4.2j</span></p>
+            <p class="kpi-lbl">Délai moyen de livraison</p>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon"><i class="fa-solid fa-truck"></i></div>
+          <div class="kpi-body">
+            <p class="kpi-val"><span id="kpi-vehicules">0</span></p>
+            <p class="kpi-lbl">Véhicules au total</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TWO-COL ── -->
+      <div class="dash-two">
+
+        <!-- TABLE -->
+        <div class="card">
+          <div class="card-head">
+            <div class="ch-icon"><i class="fa-solid fa-list-check"></i></div>
+            <div>
+              <p class="ch-title">Colis récents</p>
+              <p class="ch-sub" id="colis-info">8 derniers colis</p>
+            </div>
+            <div class="ch-action">
+              <a href="colis.html" class="btn primary sm"><i class="fa-solid fa-plus"></i>Nouveau</a>
+            </div>
+          </div>
+
+          <!-- Filter pills -->
+          <div class="table-toolbar">
+            <div class="filter-pills">
+              <button class="fpill active" data-filter="all">Tous<span class="fpill-count">8</span></button>
+              <button class="fpill" data-filter="pending">En attente</button>
+              <button class="fpill" data-filter="transit">En route</button>
+              <button class="fpill" data-filter="port">Au port</button>
+              <button class="fpill" data-filter="delivered">Livré</button>
+            </div>
+          </div>
+
+          <table class="colis-table">
+            <thead>
+              <tr>
+                <th class="sortable-th" data-col="ref">Référence<i class="sort-icon fa-solid fa-sort" style="margin-left:5px;font-size:10px;color:var(--g300)"></i></th>
+                <th class="sortable-th" data-col="client">Client<i class="sort-icon fa-solid fa-sort" style="margin-left:5px;font-size:10px;color:var(--g300)"></i></th>
+                <th>Destination</th>
+                <th>Poids</th>
+                <th>Date</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody id="colis-tbody"></tbody>
+          </table>
+
+          <div class="table-foot">
+            <span class="tf-info">Affichage des 8 derniers enregistrements</span>
+            <a href="colis.html" class="tf-link">
+              Voir tous les colis <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT COL -->
+        <div class="dash-right">
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-head">
+              <div class="ch-icon"><i class="fa-solid fa-bolt"></i></div>
+              <div><p class="ch-title">Actions rapides</p><p class="ch-sub">Raccourcis fréquents</p></div>
+            </div>
+            <div class="quick-grid">
+              <div class="quick-btn" onclick="location.href='colis.html'">
+                <i class="fa-solid fa-box-open qb-icon"></i><span class="qb-lbl">Nouveau colis</span>
+              </div>
+              <div class="quick-btn" onclick="location.href='clients.html'">
+                <i class="fa-solid fa-user-plus qb-icon"></i><span class="qb-lbl">Nouveau client</span>
+              </div>
+              <div class="quick-btn" onclick="location.href='documents.html'">
+                <i class="fa-solid fa-file-arrow-up qb-icon"></i><span class="qb-lbl">Importer doc</span>
+              </div>
+              <div class="quick-btn" onclick="location.href='rapports.html'">
+                <i class="fa-solid fa-chart-bar qb-icon"></i><span class="qb-lbl">Rapports</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flotte -->
+          <div class="card">
+            <div class="card-head">
+              <div class="ch-icon"><i class="fa-solid fa-truck"></i></div>
+              <div><p class="ch-title">Flotte véhicules</p><p class="ch-sub">État en temps réel</p></div>
+              <div class="ch-action">
+                <a href="vehicules.html" class="btn ghost sm">Tout voir <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+            <div class="veh-list">
+              <div class="veh-item" onclick="location.href='vehicules.html'">
+                <div class="veh-ico"><i class="fa-solid fa-truck"></i></div>
+                <div class="veh-info"><p class="veh-plate">LT-4821-CM</p><p class="veh-drv">Jean MBIDA</p></div>
+                <span class="badge b-busy"><span class="b-dot"></span>Mission</span>
+              </div>
+              <div class="veh-item" onclick="location.href='vehicules.html'">
+                <div class="veh-ico"><i class="fa-solid fa-truck-moving"></i></div>
+                <div class="veh-info"><p class="veh-plate">DL-2230-CM</p><p class="veh-drv">Pierre ATEBA</p></div>
+                <span class="badge b-avail"><span class="b-dot"></span>Disponible</span>
+              </div>
+              <div class="veh-item" onclick="location.href='vehicules.html'">
+                <div class="veh-ico"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                <div class="veh-info"><p class="veh-plate">YD-0091-CM</p><p class="veh-drv">Non assigné</p></div>
+                <span class="badge b-avail"><span class="b-dot"></span>Disponible</span>
+              </div>
+              <div class="veh-item" onclick="location.href='vehicules.html'">
+                <div class="veh-ico"><i class="fa-solid fa-car-side"></i></div>
+                <div class="veh-info"><p class="veh-plate">DL-7701-CM</p><p class="veh-drv">Roger FOUDA</p></div>
+                <span class="badge b-maintenance"><span class="b-dot"></span>Maintenance</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── THREE-COL BOTTOM ── -->
+      <div class="dash-three">
+
+        <!-- BAR CHART -->
+        <div class="card">
+          <div class="card-head">
+            <div class="ch-icon"><i class="fa-solid fa-chart-column"></i></div>
+            <div><p class="ch-title">Livraisons par mois</p><p class="ch-sub">Juin — Décembre 2024</p></div>
+          </div>
+          <div class="chart-wrap">
+            <div class="bar-chart" id="bar-chart-inner"></div>
+            <p class="chart-total" id="chart-total"></p>
+            <p id="bar-tooltip" style="text-align:center;font-size:11.5px;color:var(--black);font-family:var(--font-m);margin-top:6px;opacity:0;transition:opacity .3s;height:16px"></p>
+          </div>
+        </div>
+
+        <!-- DONUT -->
+        <div class="card">
+          <div class="card-head">
+            <div class="ch-icon"><i class="fa-solid fa-chart-pie"></i></div>
+            <div><p class="ch-title">Statuts des colis</p><p class="ch-sub">Répartition actuelle</p></div>
+          </div>
+          <div class="donut-section">
+            <div class="donut-wrap">
+              <div class="donut-center" style="position:relative;flex-shrink:0">
+                <svg id="donut-svg" viewBox="0 0 90 90" class="donut-svg"></svg>
+                <div class="donut-label">
+                  <span class="donut-main">42%</span>
+                  <span class="donut-sub">Livrés</span>
+                </div>
+              </div>
+              <div class="donut-legend" id="donut-legend"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY -->
+        <div class="card">
+          <div class="card-head">
+            <div class="ch-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div><p class="ch-title">Activité récente</p><p class="ch-sub">Dernières actions</p></div>
+            <div class="ch-action">
+              <button class="btn ghost sm" onclick="renderActivity()"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+          </div>
+          <div class="act-list" id="act-list"></div>
+        </div>
+
+      </div>
+
+      <div style="height:20px"></div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/base.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - TransitFlow</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="overlay">
+        <div class="login-container">
+
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-route"></i></div>
+                <h1>TransitFlow</h1>
+                <p>Connectez-vous à votre espace de gestion</p>
+            </div>
+
+            <!-- Sélection du profil (non-admin uniquement) -->
+            <div class="role-selector" id="role-selector">
+                <label class="role-combo-label">
+                    <i class="fa-solid fa-users-gear"></i> Vous êtes ?
+                </label>
+                <div class="role-combo-wrap">
+                    <select id="role-select" class="role-combo" onchange="selectRole(this.value)">
+                        <option value="transitaire">Transitaire</option>
+                        <option value="comptable">Comptable</option>
+                        <option value="directeur">Directeur</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down role-combo-arrow"></i>
+                </div>
+            </div>
+
+            <!-- Badge mode admin -->
+            <div class="admin-mode-badge" id="admin-badge">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Mode administrateur</span>
+                <a href="#" onclick="toggleAdminMode(event)">Annuler</a>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label><i class="fa-regular fa-envelope"></i> Email</label>
+                    <input type="email" id="email" placeholder="votre@email.cm" required/>
+                </div>
+                <div class="input-group">
+                    <label><i class="fa-solid fa-lock"></i> Mot de passe</label>
+                    <div class="pwd-wrap">
+                        <input type="password" id="password" placeholder="••••••••" required/>
+                        <button type="button" class="toggle-pwd" id="toggle-pwd">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="login-btn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    Se connecter
+                </button>
+
+                <p id="message"></p>
+
+                <div class="link">
+                    Administrateur ?
+                    <a href="#" onclick="toggleAdminMode(event)">Connexion directe</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/login-new.js"></script>
+</body>
+</html>
